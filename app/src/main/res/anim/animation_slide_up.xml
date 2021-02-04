@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ExtraText">
+
+    animate()
+    .translationYBy(120)
+    .translationY(0)
+    .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+
+</set>

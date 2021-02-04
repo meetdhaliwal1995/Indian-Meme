@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">IndianMeme</string>
+    <string name="intresting_and_become_a_follower_of_famous">intresting.And become a follower of famous</string>
+    <string name="people_in_your_area.">people in your area</string>
+    <string name="just_like_the_photos_which_you_found">Just Like the photos which you found</string>
+    <string name="like_and_follow">Like and follow</string>
+    <string name="welcome_to_pixelphoto">Welcome to PixelPhoto</string>
+    <string name="sign_in">Sign in</string>
+    <string name="save_and_favorite">Save and favorite</string>
+    <string name="immediately_save_images_or_video_to_check">Immediately Save Images or video to check</string>
+    <string name="them_later_anytime">them later anytime</string>
+    <string name="terms">BY registering you agree to our terms of service</string>
+    <string name="account">already have an account?</string>
+    <string name="signin">SIGN IN</string>
+    <string name="signIn">Sign in</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot your password</string>
+    <string name="notaccount">dont\'t have an account?</string>
+    <string name="register">Register</string>
+    <string name="pixelphoto">PixelPhoto</string>
+    <string name="delete">Delete</string>
+    <string name="logout">Logout</string>
+</resources>
