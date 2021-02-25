@@ -1,7 +1,6 @@
 package in.indianmeme.app;
 
 import android.app.Application;
-import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,12 +16,23 @@ public class MyApp extends Application {
     private static Gson gson;
     private static MyApp instance;
 
+    public static MyApp getInstance() {
+        return instance;
+    }
+
+    public static Retrofit getRetrofit() {
+        return retrofit;
+    }
+
+    public static Gson getGson() {
+        return gson;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         instance = this;
-
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -41,17 +51,6 @@ public class MyApp extends Application {
 
     }
 
-    public static MyApp getInstance() {
-        return instance;
+    public void hello() {
     }
-
-    public static Retrofit getRetrofit() {
-        return retrofit;
-    }
-
-    public static Gson getGson() {
-        return gson;
-    }
-
-
 }

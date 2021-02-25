@@ -20,4 +20,7 @@
     <string name="pixelphoto">PixelPhoto</string>
     <string name="delete">Delete</string>
     <string name="logout">Logout</string>
+    <string name="Unfollow">Unfollow</string>
+    <string name="follow">Follow</string>
+    <string name="rply">rply</string>
 </resources>

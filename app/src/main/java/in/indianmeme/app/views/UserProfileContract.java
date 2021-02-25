@@ -2,8 +2,7 @@ package in.indianmeme.app.views;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.ProfileModel.UserData;
-import in.indianmeme.app.ModelApi.ProfileModel.UserProfile;
+import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
 
 public interface UserProfileContract {
 
@@ -13,7 +12,7 @@ public interface UserProfileContract {
 
         void hideProgress();
 
-        void setLatestData(UserProfile userProfile);
+        void setLatestData(UserProfileModel userProfile);
 
     }
 

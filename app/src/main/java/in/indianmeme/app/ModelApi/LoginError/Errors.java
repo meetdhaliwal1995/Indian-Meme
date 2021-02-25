@@ -1,4 +1,3 @@
-
 package in.indianmeme.app.ModelApi.LoginError;
 
 import com.google.gson.annotations.Expose;

@@ -1,4 +1,3 @@
-
 package in.indianmeme.app.ModelApi.ExplorePosts;
 
 import com.google.gson.annotations.Expose;

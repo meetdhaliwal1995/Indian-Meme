@@ -2,7 +2,7 @@ package in.indianmeme.app.presenter;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.ProfileModel.UserProfile;
+import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
 import in.indianmeme.app.MyApp;
 import in.indianmeme.app.NetworkInterface;
 import in.indianmeme.app.views.UserProfileContract;
@@ -12,7 +12,7 @@ import retrofit2.Response;
 
 public class UserProfilePresenter implements UserProfileContract.UserProfileInteractor {
 
-    private UserProfileContract.UserProfileView userProfileView;
+    private final UserProfileContract.UserProfileView userProfileView;
 
     public UserProfilePresenter(UserProfileContract.UserProfileView userProfileView) {
         this.userProfileView = userProfileView;
@@ -22,9 +22,9 @@ public class UserProfilePresenter implements UserProfileContract.UserProfileInte
     @Override
     public void getData(Map<String, Object> map) {
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
-        networkInterface.userProfile(map).enqueue(new Callback<UserProfile>() {
+        networkInterface.userProfile(map).enqueue(new Callback<UserProfileModel>() {
             @Override
-            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+            public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
                 int code = 200;
                 if (code == response.code()) {
                     userProfileView.setLatestData(response.body());
@@ -32,7 +32,7 @@ public class UserProfilePresenter implements UserProfileContract.UserProfileInte
             }
 
             @Override
-            public void onFailure(Call<UserProfile> call, Throwable t) {
+            public void onFailure(Call<UserProfileModel> call, Throwable t) {
 
             }
         });

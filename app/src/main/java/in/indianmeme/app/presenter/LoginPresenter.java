@@ -14,7 +14,7 @@ import retrofit2.Response;
 
 public class LoginPresenter implements UserLoginContract.LoginInteractor {
 
-    private UserLoginContract.LoginView loginView;
+    private final UserLoginContract.LoginView loginView;
 
     public LoginPresenter(UserLoginContract.LoginView loginView) {
         this.loginView = loginView;

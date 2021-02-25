@@ -2,14 +2,14 @@ package in.indianmeme.app.views;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.Delete.DeletePost;
+import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
 
 public interface DeleteContract {
 
     interface DelteView {
 
 
-        void setLatestData(DeletePost deletePost);
+        void setLatestData(DeletePostModel deletePost);
 
     }
 

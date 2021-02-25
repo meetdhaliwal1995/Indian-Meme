@@ -1,7 +1,6 @@
 package in.indianmeme.app;
 
 import android.content.Intent;
-import android.content.PeriodicSync;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.UserRegisterModel.UserRegister;
+import in.indianmeme.app.ModelApi.UserRegisterModel.UserRegisterModel;
 import in.indianmeme.app.presenter.RegisterUserPresenter;
 import in.indianmeme.app.views.UserRegisterContract;
 import retrofit2.Call;
@@ -27,15 +26,12 @@ import retrofit2.Response;
 
 public class ActivityRegister extends AppCompatActivity implements UserRegisterContract.UserView {
 
+    public static final String Mypre = "Mypres";
     ImageView back;
     EditText email, username, password, confirm;
     Button createAccount;
     TextView signIN;
-
-
     SharedPreferences sharedPreferences;
-    public static final String Mypre = "Mypres";
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,9 +105,9 @@ public class ActivityRegister extends AppCompatActivity implements UserRegisterC
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
 
 
-        networkInterface.registerUser(map).enqueue(new Callback<UserRegister>() {
+        networkInterface.registerUser(map).enqueue(new Callback<UserRegisterModel>() {
             @Override
-            public void onResponse(Call<UserRegister> call, Response<UserRegister> response) {
+            public void onResponse(Call<UserRegisterModel> call, Response<UserRegisterModel> response) {
                 Log.e("data", response.toString());
                 if (response.body().getStatus().equals("ok")) {
                     String accesstoken = response.body().getData().getAccessToken();
@@ -120,7 +116,7 @@ public class ActivityRegister extends AppCompatActivity implements UserRegisterC
             }
 
             @Override
-            public void onFailure(Call<UserRegister> call, Throwable t) {
+            public void onFailure(Call<UserRegisterModel> call, Throwable t) {
                 Log.e("error", t.getMessage());
             }
         });
@@ -145,7 +141,7 @@ public class ActivityRegister extends AppCompatActivity implements UserRegisterC
     }
 
     @Override
-    public void setLatestData(UserRegister userRegister) {
+    public void setLatestData(UserRegisterModel userRegister) {
         if (userRegister.getCode().equals(Constant.OK)) {
             String accesstoken = userRegister.getData().getAccessToken();
             saveData(Constant.ACCESS_TOKEN, accesstoken);

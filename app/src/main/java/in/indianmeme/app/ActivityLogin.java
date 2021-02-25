@@ -15,15 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.indianmeme.app.ModelApi.Login.LoginModel;
+import in.indianmeme.app.ModelApi.UserData.UserDataModel;
 import in.indianmeme.app.presenter.LoginPresenter;
+import in.indianmeme.app.presenter.UserDataPresenter;
+import in.indianmeme.app.views.UserDataContract;
 import in.indianmeme.app.views.UserLoginContract;
 
-public class ActivityLogin extends AppCompatActivity implements UserLoginContract.LoginView {
+public class ActivityLogin extends AppCompatActivity implements UserLoginContract.LoginView, UserDataContract.UserView {
     TextView register;
     EditText email, password;
     Button signIn;
     LoginModel loginModel;
-
+    UserDataPresenter userDataPresenter;
+    LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +39,8 @@ public class ActivityLogin extends AppCompatActivity implements UserLoginContrac
         password = findViewById(R.id.text_passwordlogin);
         signIn = findViewById(R.id.btn_signin);
 
-        final LoginPresenter loginPresenter = new LoginPresenter(this);
-
+        loginPresenter = new LoginPresenter(this);
+        userDataPresenter = new UserDataPresenter(this);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,13 +89,26 @@ public class ActivityLogin extends AppCompatActivity implements UserLoginContrac
 //        PrefUtils prefUtils = new PrefUtils(this);
         PrefUtils.setAccessToken(accessToken);
         PrefUtils.setUserId(getid);
-        Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
-        startActivity(intent);
+        Map<String, Object> map = new HashMap<>();
+        map.put("server_key", Constant.SERVER_KEY);
+        map.put("access_token", PrefUtils.getAccessToken());
+        map.put("user_id", PrefUtils.getUserId());
+        userDataPresenter.getData(map);
+
 
     }
 
     @Override
     public void showError(String error) {
         Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setLatestData(UserDataModel userDataModel) {
+        String avatar = userDataModel.getData().getAvatar();
+        PrefUtils.setAvatar(avatar);
+        Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+        startActivity(intent);
+
     }
 }

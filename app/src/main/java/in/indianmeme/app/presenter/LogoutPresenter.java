@@ -1,10 +1,8 @@
 package in.indianmeme.app.presenter;
 
-import android.widget.Toast;
-
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.Logout.LogoutUser;
+import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
 import in.indianmeme.app.MyApp;
 import in.indianmeme.app.NetworkInterface;
 import in.indianmeme.app.views.LogoutContract;
@@ -24,9 +22,9 @@ public class LogoutPresenter implements LogoutContract.LogoutInterecter {
     @Override
     public void getData(Map<String, Object> map) {
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
-        networkInterface.logoutUser(map).enqueue(new Callback<LogoutUser>() {
+        networkInterface.logoutUser(map).enqueue(new Callback<LogoutUserModel>() {
             @Override
-            public void onResponse(Call<LogoutUser> call, Response<LogoutUser> response) {
+            public void onResponse(Call<LogoutUserModel> call, Response<LogoutUserModel> response) {
                 int code = 200;
                 if (response.code() == code) {
                     logoutView.setLatestData(response.body());
@@ -34,7 +32,7 @@ public class LogoutPresenter implements LogoutContract.LogoutInterecter {
             }
 
             @Override
-            public void onFailure(Call<LogoutUser> call, Throwable t) {
+            public void onFailure(Call<LogoutUserModel> call, Throwable t) {
 
             }
         });

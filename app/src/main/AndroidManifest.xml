@@ -31,7 +31,6 @@
         <activity android:name=".ActivityLogin" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ActivityFront" />
-        <activity android:name=".ActivityUserHome" />
         <activity android:name=".ActivityComments" />
         <activity android:name=".ActivityStory" />
     </application>

@@ -2,7 +2,7 @@ package in.indianmeme.app.views;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.ExplorePosts.PostExplore;
+import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
 
 public interface PostHomeExploreContract {
 
@@ -12,7 +12,7 @@ public interface PostHomeExploreContract {
 
         void hideProgress();
 
-        void setLatestData(PostExplore postExplore);
+        void setLatestData(PostExploreModel postExplore);
 
         void showError(String error);
     }

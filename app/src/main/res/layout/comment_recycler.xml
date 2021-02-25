@@ -6,7 +6,7 @@
     android:background="#000">
 
     <ImageView
-        android:id="@+id/user_comment_imz"
+        android:id="@+id/fetch_comment_imz"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -15,22 +15,82 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/username_comment"
+        android:id="@+id/username_fetch_rply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="user_name"
         android:textColor="#fff"
-        app:layout_constraintStart_toEndOf="@id/user_comment_imz"
-        app:layout_constraintTop_toTopOf="@id/user_comment_imz" />
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/fetch_comment_imz"
+        app:layout_constraintTop_toTopOf="@id/fetch_comment_imz" />
 
     <TextView
-        android:id="@+id/user_comment_text"
+        android:id="@+id/user_fetch_rply_cmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:textColor="#fff"
-        app:layout_constraintStart_toStartOf="@id/username_comment"
-        app:layout_constraintTop_toBottomOf="@id/username_comment" />
+        app:layout_constraintBottom_toBottomOf="@id/username_fetch_rply"
+        app:layout_constraintStart_toEndOf="@id/username_fetch_rply"
+        app:layout_constraintTop_toTopOf="@id/username_fetch_rply" />
+
+    <TextView
+        android:id="@+id/reply_int"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="#fff"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/reply_text"
+        app:layout_constraintStart_toEndOf="@id/reply_text"
+        app:layout_constraintTop_toTopOf="@id/reply_text" />
+
+    <TextView
+        android:id="@+id/reply_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:text="view reply :"
+        android:textColor="#fff"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/text_time"
+        app:layout_constraintTop_toBottomOf="@id/text_time" />
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#fff"
+        app:layout_constraintStart_toStartOf="@id/username_fetch_rply"
+        app:layout_constraintTop_toBottomOf="@id/username_fetch_rply" />
+
+    <TextView
+        android:id="@+id/user_rply_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="reply"
+        android:textColor="#fff"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/text_time"
+        app:layout_constraintStart_toEndOf="@id/text_time"
+        app:layout_constraintTop_toTopOf="@id/text_time" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:background="#fff"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reply_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

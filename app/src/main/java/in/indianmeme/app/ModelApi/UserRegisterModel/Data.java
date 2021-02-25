@@ -1,4 +1,3 @@
-
 package in.indianmeme.app.ModelApi.UserRegisterModel;
 
 import com.google.gson.annotations.Expose;

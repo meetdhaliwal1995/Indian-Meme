@@ -18,8 +18,8 @@ import in.indianmeme.app.R;
 
 public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
 
-    private Context context;
-    private List<UserPost> _list;
+    private final Context context;
+    private final List<UserPost> _list;
 
     public AdapterUser(Context context, List<UserPost> _list) {
         this.context = context;

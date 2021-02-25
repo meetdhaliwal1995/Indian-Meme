@@ -2,6 +2,8 @@ package in.indianmeme.app.views;
 
 import java.util.Map;
 
+import in.indianmeme.app.ModelApi.UserRegisterModel.UserRegisterModel;
+
 public interface UserRegisterContract {
 
     interface UserView {
@@ -11,7 +13,7 @@ public interface UserRegisterContract {
         void hideProgress();
 
 
-        void setLatestData(in.indianmeme.app.ModelApi.UserRegisterModel.UserRegister userRegister);
+        void setLatestData(UserRegisterModel userRegister);
 
         void showError(String error);
     }

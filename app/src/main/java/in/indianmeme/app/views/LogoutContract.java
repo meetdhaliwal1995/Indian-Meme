@@ -2,14 +2,14 @@ package in.indianmeme.app.views;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.Logout.LogoutUser;
+import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
 
 public interface LogoutContract {
 
     interface LogoutView {
 
 
-        void setLatestData(LogoutUser logoutUser);
+        void setLatestData(LogoutUserModel logoutUser);
 
     }
 

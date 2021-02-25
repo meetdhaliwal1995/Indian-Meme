@@ -30,20 +30,17 @@ public class DefalutActivity extends AppCompatActivity {
         s.setAnimation(fadeout);
         s1.setAnimation(fadeout);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!(PrefUtils.getAccessToken() == null)) {
-                    Intent intent = new Intent(DefalutActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    s1.setAnimation(fadeout);
-                    s.setAnimation(fadeout);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    finish();
-                } else {
-                    Intent i = new Intent(DefalutActivity.this, ActivityLogin.class);
-                    startActivity(i);
-                }
+        new Handler().postDelayed(() -> {
+            if (!(PrefUtils.getAccessToken() == null)) {
+                Intent intent = new Intent(DefalutActivity.this, MainActivity.class);
+                startActivity(intent);
+                s1.setAnimation(fadeout);
+                s.setAnimation(fadeout);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            } else {
+                Intent i = new Intent(DefalutActivity.this, ActivityLogin.class);
+                startActivity(i);
             }
         }, 3000);
     }

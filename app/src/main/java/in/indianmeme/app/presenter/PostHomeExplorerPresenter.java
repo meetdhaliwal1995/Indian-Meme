@@ -2,7 +2,7 @@ package in.indianmeme.app.presenter;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.ExplorePosts.PostExplore;
+import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
 import in.indianmeme.app.MyApp;
 import in.indianmeme.app.NetworkInterface;
 import in.indianmeme.app.views.PostHomeExploreContract;
@@ -12,7 +12,7 @@ import retrofit2.Response;
 
 public class PostHomeExplorerPresenter implements PostHomeExploreContract.ExploreInterector {
 
-    private PostHomeExploreContract.ExploreView exploreView;
+    private final PostHomeExploreContract.ExploreView exploreView;
 
     public PostHomeExplorerPresenter(PostHomeExploreContract.ExploreView exploreView) {
         this.exploreView = exploreView;
@@ -21,9 +21,9 @@ public class PostHomeExplorerPresenter implements PostHomeExploreContract.Explor
     @Override
     public void getData(Map<String, Object> map) {
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
-        networkInterface.postExplore(map).enqueue(new Callback<PostExplore>() {
+        networkInterface.postExplore(map).enqueue(new Callback<PostExploreModel>() {
             @Override
-            public void onResponse(Call<PostExplore> call, Response<PostExplore> response) {
+            public void onResponse(Call<PostExploreModel> call, Response<PostExploreModel> response) {
                 int code = 200;
                 if (response.code() == code) {
                     exploreView.setLatestData(response.body());
@@ -31,7 +31,7 @@ public class PostHomeExplorerPresenter implements PostHomeExploreContract.Explor
             }
 
             @Override
-            public void onFailure(Call<PostExplore> call, Throwable t) {
+            public void onFailure(Call<PostExploreModel> call, Throwable t) {
 
             }
         });

@@ -1,10 +1,12 @@
-
 package in.indianmeme.app.ModelApi.Story;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Story {
+public class Story implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -42,6 +44,47 @@ public class Story {
     @SerializedName("time_text")
     @Expose
     private String timeText;
+
+    protected Story(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            userId = null;
+        } else {
+            userId = in.readInt();
+        }
+        caption = in.readString();
+        time = in.readString();
+        mediaFile = in.readString();
+        type = in.readString();
+        duration = in.readString();
+        if (in.readByte() == 0) {
+            views = null;
+        } else {
+            views = in.readInt();
+        }
+        byte tmpOwner = in.readByte();
+        owner = tmpOwner == 0 ? null : tmpOwner == 1;
+        src = in.readString();
+        byte tmpSf = in.readByte();
+        sf = tmpSf == 0 ? null : tmpSf == 1;
+        timeText = in.readString();
+    }
+
+    public static final Creator<Story> CREATOR = new Creator<Story>() {
+        @Override
+        public Story createFromParcel(Parcel in) {
+            return new Story(in);
+        }
+
+        @Override
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -139,4 +182,39 @@ public class Story {
         this.timeText = timeText;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        if (userId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userId);
+        }
+        dest.writeString(caption);
+        dest.writeString(time);
+        dest.writeString(mediaFile);
+        dest.writeString(type);
+        dest.writeString(duration);
+        if (views == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(views);
+        }
+        dest.writeByte((byte) (owner == null ? 0 : owner ? 1 : 2));
+        dest.writeString(src);
+        dest.writeByte((byte) (sf == null ? 0 : sf ? 1 : 2));
+        dest.writeString(timeText);
+    }
 }

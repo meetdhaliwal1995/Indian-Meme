@@ -2,7 +2,7 @@ package in.indianmeme.app.presenter;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.Story.StoryFetch;
+import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
 import in.indianmeme.app.MyApp;
 import in.indianmeme.app.NetworkInterface;
 import in.indianmeme.app.views.StoryContract;
@@ -21,9 +21,9 @@ public class StoryPresenter implements StoryContract.UserStoryInterector {
     @Override
     public void getData(Map<String, Object> map) {
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
-        networkInterface.getStory(map).enqueue(new Callback<StoryFetch>() {
+        networkInterface.getStory(map).enqueue(new Callback<StoryFetchModel>() {
             @Override
-            public void onResponse(Call<StoryFetch> call, Response<StoryFetch> response) {
+            public void onResponse(Call<StoryFetchModel> call, Response<StoryFetchModel> response) {
                 int code = 200;
                 if (response.code() == code) {
                     userStoryView.setLatestData(response.body());
@@ -31,7 +31,7 @@ public class StoryPresenter implements StoryContract.UserStoryInterector {
             }
 
             @Override
-            public void onFailure(Call<StoryFetch> call, Throwable t) {
+            public void onFailure(Call<StoryFetchModel> call, Throwable t) {
 
             }
         });

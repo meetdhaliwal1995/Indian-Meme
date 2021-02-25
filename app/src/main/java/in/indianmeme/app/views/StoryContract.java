@@ -2,8 +2,7 @@ package in.indianmeme.app.views;
 
 import java.util.Map;
 
-import in.indianmeme.app.ModelApi.Comments.CommentInfo;
-import in.indianmeme.app.ModelApi.Story.StoryFetch;
+import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
 
 public interface StoryContract {
 
@@ -13,7 +12,7 @@ public interface StoryContract {
 
         void hideProgress();
 
-        void setLatestData(StoryFetch storyFetch);
+        void setLatestData(StoryFetchModel storyFetch);
 
         void showError(String error);
     }

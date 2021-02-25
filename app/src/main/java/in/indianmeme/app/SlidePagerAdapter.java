@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SlidePagerAdapter extends FragmentPagerAdapter {
 
-    private List<ModelClass> _list;
+    private final List<ModelClass> _list;
 
     public SlidePagerAdapter(@NonNull FragmentManager fm, int behavior, List<ModelClass> _list) {
         super(fm, behavior);

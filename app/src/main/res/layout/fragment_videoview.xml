@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3949AB"
+    android:clickable="true"
+    android:focusable="true">
+
+
+    <!--    <com.google.android.exoplayer2.ui.PlayerView-->
+    <!--        android:id="@+id/exo_player_view"-->
+    <!--        android:focusable="true"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_below="@+id/resolution_textView"-->
+    <!--        android:layout_marginTop="2dp"-->
+    <!--        tools:ignore="UnknownId" />-->
+
+    <VideoView
+        android:id="@+id/view_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</RelativeLayout>

@@ -1,11 +1,14 @@
-
 package in.indianmeme.app.ModelApi.Story;
 
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum {
+import java.util.List;
+
+public class Datum implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -58,6 +61,92 @@ public class Datum {
     @SerializedName("stories")
     @Expose
     private List<Story> stories = null;
+
+    protected Datum(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            userId = null;
+        } else {
+            userId = in.readInt();
+        }
+        caption = in.readString();
+        time = in.readString();
+        mediaFile = in.readString();
+        type = in.readString();
+        duration = in.readString();
+        username = in.readString();
+        fname = in.readString();
+        lname = in.readString();
+        avatar = in.readString();
+        if (in.readByte() == 0) {
+            _new = null;
+        } else {
+            _new = in.readInt();
+        }
+        newStories = in.readString();
+        url = in.readString();
+        name = in.readString();
+        byte tmpOwner = in.readByte();
+        owner = tmpOwner == 0 ? null : tmpOwner == 1;
+        stories = in.createTypedArrayList(Story.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        if (userId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userId);
+        }
+        dest.writeString(caption);
+        dest.writeString(time);
+        dest.writeString(mediaFile);
+        dest.writeString(type);
+        dest.writeString(duration);
+        dest.writeString(username);
+        dest.writeString(fname);
+        dest.writeString(lname);
+        dest.writeString(avatar);
+        if (_new == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(_new);
+        }
+        dest.writeString(newStories);
+        dest.writeString(url);
+        dest.writeString(name);
+        dest.writeByte((byte) (owner == null ? 0 : owner ? 1 : 2));
+        dest.writeTypedList(stories);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Datum> CREATOR = new Creator<Datum>() {
+        @Override
+        public Datum createFromParcel(Parcel in) {
+            return new Datum(in);
+        }
+
+        @Override
+        public Datum[] newArray(int size) {
+            return new Datum[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -194,5 +283,4 @@ public class Datum {
     public void setStories(List<Story> stories) {
         this.stories = stories;
     }
-
 }

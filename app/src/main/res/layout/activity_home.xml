@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00897B">
+    android:background="@drawable/meme">
 
     <TextView
         android:id="@+id/text_fight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="90dp"
+        android:layout_marginTop="150dp"
         android:text="Indian "
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@id/text_Covid"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,8 +25,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Meme"
-        android:textColor="#C5BDBD"
+        android:textColor="#fff"
         android:textSize="40sp"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="@id/text_fight"
         app:layout_constraintStart_toEndOf="@id/text_fight"
         app:layout_constraintTop_toTopOf="@id/text_fight" />
@@ -35,10 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Developed By Manjit Singh\n               Dhaliwal"
+        android:gravity="center"
+        android:text="Developed By Manjit Singh \n Dhaliwal"
         android:textColor="#fff"
         android:textSize="16sp"
-        android:textStyle="bold"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

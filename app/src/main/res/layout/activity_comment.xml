@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintBottom_toTopOf="@id/comment_recyclerview"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="NotSibling">
 
         <ImageView
             android:id="@+id/back_imz_comment"
@@ -40,21 +41,33 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/comment_recyclerview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_layout"
-        app:layout_constraintTop_toBottomOf="@id/topbar_layout" />
+        app:layout_constraintTop_toBottomOf="@id/topbar_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comment_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_layout"
+            app:layout_constraintTop_toBottomOf="@id/topbar_layout" />
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/user_comment_imz"
+            android:id="@+id/fetch_comment_imz"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -74,7 +87,7 @@
             android:textColorHint="#fff"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/user_comment_imz"
+            app:layout_constraintStart_toEndOf="@id/fetch_comment_imz"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
