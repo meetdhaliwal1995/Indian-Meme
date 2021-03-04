@@ -19,7 +19,6 @@ import java.util.List;
 
 import in.indianmeme.app.ActivityStory;
 import in.indianmeme.app.ModelApi.Story.Datum;
-import in.indianmeme.app.ModelApi.Story.Story;
 import in.indianmeme.app.R;
 
 public class AdapterStory extends RecyclerView.Adapter<AdapterStory.ViewHolder> {

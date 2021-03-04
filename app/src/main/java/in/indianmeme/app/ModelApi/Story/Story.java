@@ -8,6 +8,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class Story implements Parcelable {
 
+    public static final Creator<Story> CREATOR = new Creator<Story>() {
+        @Override
+        public Story createFromParcel(Parcel in) {
+            return new Story(in);
+        }
+
+        @Override
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -73,18 +84,6 @@ public class Story implements Parcelable {
         sf = tmpSf == 0 ? null : tmpSf == 1;
         timeText = in.readString();
     }
-
-    public static final Creator<Story> CREATOR = new Creator<Story>() {
-        @Override
-        public Story createFromParcel(Parcel in) {
-            return new Story(in);
-        }
-
-        @Override
-        public Story[] newArray(int size) {
-            return new Story[size];
-        }
-    };
 
     public Integer getId() {
         return id;

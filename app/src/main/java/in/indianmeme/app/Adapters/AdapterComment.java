@@ -1,7 +1,9 @@
 package in.indianmeme.app.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import in.indianmeme.app.Constant;
 import in.indianmeme.app.InterfaceComment;
 import in.indianmeme.app.ModelApi.Comments.Datum;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchRplyList;
+import in.indianmeme.app.PrefUtils;
 import in.indianmeme.app.R;
 
 public class AdapterComment extends RecyclerView.Adapter<AdapterComment.CommentViewHolder> {
@@ -82,10 +88,10 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.CommentV
         notifyDataSetChanged();
     }
 
-    interface CallBack {
-
+    public void updateList(int pos) {
+        _list.remove(pos);
+        notifyDataSetChanged();
     }
-
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
 
@@ -125,7 +131,42 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.CommentV
                 }
             });
 
-            rplyBtn.setOnClickListener(v -> interfaceContent.callUserReply(_list.get(getAdapterPosition()).getId()));
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (_list.get(getAdapterPosition()).getUserId() == PrefUtils.getUserId()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setCancelable(true);
+                        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
+                        View view2 = layoutInflaterAndroid.inflate(R.layout.dialog_delete_layout, null);
+                        builder.setView(view2);
+                        final AlertDialog alertDialog = builder.create();
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                        alertDialog.show();
+                        TextView delete, copy;
+                        copy = view2.findViewById(R.id.copy);
+                        delete = view2.findViewById(R.id.delete2);
+                        delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("server_key", Constant.SERVER_KEY);
+                                map.put("access_token", PrefUtils.getAccessToken());
+                                map.put("comment_id", _list.get(0).getId());
+                                interfaceContent.deleteComment(map, getAdapterPosition());
+                                alertDialog.dismiss();
+                            }
+                        });
+                    } else {
+
+                    }
+                    return false;
+                }
+            });
+
+
+            rplyBtn.setOnClickListener(v ->
+                    interfaceContent.callUserReply(_list.get(getAdapterPosition()).getId()));
 
         }
 

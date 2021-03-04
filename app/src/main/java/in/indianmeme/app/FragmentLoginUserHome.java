@@ -20,13 +20,14 @@ import java.util.Map;
 
 import in.indianmeme.app.Adapters.AdapterUser;
 import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
-import in.indianmeme.app.presenter.UserProfilePresenter;
-import in.indianmeme.app.views.UserProfileContract;
+import in.indianmeme.app.presenter.PostPresenter;
+import in.indianmeme.app.views.PostContract;
 
-public class FragmentLoginUserHome extends Fragment implements UserProfileContract.UserProfileView {
+public class FragmentLoginUserHome extends Fragment implements PostContract.PostView {
     TextView userName, userLocation, posts, followers, following, about, getUserName;
     ImageView profileImage, home, add;
     RecyclerView recyclerView;
+    PostPresenter postPresenter;
 
 
     @Nullable
@@ -56,7 +57,7 @@ public class FragmentLoginUserHome extends Fragment implements UserProfileContra
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        UserProfilePresenter userProfilePresenter = new UserProfilePresenter(this);
+        postPresenter = new PostPresenter(this);
 
         String access_token = PrefUtils.getAccessToken();
         String server_key = Constant.SERVER_KEY;
@@ -67,7 +68,8 @@ public class FragmentLoginUserHome extends Fragment implements UserProfileContra
         map.put("access_token", access_token);
         map.put("server_key", server_key);
         map.put("user_id", user_id);
-        userProfilePresenter.getData(map);
+//        userProfilePresenter.getData(map);
+        postPresenter.getUserProfile(map);
 
     }
 
@@ -82,7 +84,7 @@ public class FragmentLoginUserHome extends Fragment implements UserProfileContra
     }
 
     @Override
-    public void setLatestData(UserProfileModel userProfile) {
+    public void setUserProfile(UserProfileModel userProfile) {
 
         userName.setText(userProfile.getData().getUserData().getUsername());
         getUserName.setText(userProfile.getData().getUserData().getUsername());
@@ -94,5 +96,4 @@ public class FragmentLoginUserHome extends Fragment implements UserProfileContra
         AdapterUser adapterUser = new AdapterUser(getContext(), userProfile.getData().getUserPosts());
         recyclerView.setAdapter(adapterUser);
     }
-
 }

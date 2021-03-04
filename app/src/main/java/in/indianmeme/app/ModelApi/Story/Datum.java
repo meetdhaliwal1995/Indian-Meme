@@ -10,6 +10,17 @@ import java.util.List;
 
 public class Datum implements Parcelable {
 
+    public static final Creator<Datum> CREATOR = new Creator<Datum>() {
+        @Override
+        public Datum createFromParcel(Parcel in) {
+            return new Datum(in);
+        }
+
+        @Override
+        public Datum[] newArray(int size) {
+            return new Datum[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -135,18 +146,6 @@ public class Datum implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Datum> CREATOR = new Creator<Datum>() {
-        @Override
-        public Datum createFromParcel(Parcel in) {
-            return new Datum(in);
-        }
-
-        @Override
-        public Datum[] newArray(int size) {
-            return new Datum[size];
-        }
-    };
 
     public Integer getId() {
         return id;

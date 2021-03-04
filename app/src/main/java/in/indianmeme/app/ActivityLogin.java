@@ -16,18 +16,16 @@ import java.util.Map;
 
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.UserData.UserDataModel;
-import in.indianmeme.app.presenter.LoginPresenter;
-import in.indianmeme.app.presenter.UserDataPresenter;
-import in.indianmeme.app.views.UserDataContract;
-import in.indianmeme.app.views.UserLoginContract;
+import in.indianmeme.app.presenter.PostPresenter;
+import in.indianmeme.app.views.PostContract;
 
-public class ActivityLogin extends AppCompatActivity implements UserLoginContract.LoginView, UserDataContract.UserView {
+public class ActivityLogin extends AppCompatActivity implements
+        PostContract.PostView {
     TextView register;
     EditText email, password;
     Button signIn;
     LoginModel loginModel;
-    UserDataPresenter userDataPresenter;
-    LoginPresenter loginPresenter;
+    PostPresenter postPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +37,7 @@ public class ActivityLogin extends AppCompatActivity implements UserLoginContrac
         password = findViewById(R.id.text_passwordlogin);
         signIn = findViewById(R.id.btn_signin);
 
-        loginPresenter = new LoginPresenter(this);
-        userDataPresenter = new UserDataPresenter(this);
+        postPresenter = new PostPresenter(this);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +58,8 @@ public class ActivityLogin extends AppCompatActivity implements UserLoginContrac
                 map.put("username", mail);
                 map.put("password", pass);
 
-                loginPresenter.getData(map);
+//                loginPresenter.getData(map);
+                postPresenter.getUserLogin(map);
 
 
             }
@@ -80,8 +78,7 @@ public class ActivityLogin extends AppCompatActivity implements UserLoginContrac
     }
 
     @Override
-    public void setLatestData(LoginModel loginModel) {
-
+    public void setUserLogin(LoginModel loginModel) {
         String accessToken = loginModel.getData().getAccessToken();
         int getid = loginModel.getData().getUserId();
 //        saveData(Constant.ACCESS_TOKEN, accessToken);
@@ -93,9 +90,8 @@ public class ActivityLogin extends AppCompatActivity implements UserLoginContrac
         map.put("server_key", Constant.SERVER_KEY);
         map.put("access_token", PrefUtils.getAccessToken());
         map.put("user_id", PrefUtils.getUserId());
-        userDataPresenter.getData(map);
-
-
+//        userDataPresenter.getData(map);
+        postPresenter.getUserData(map);
     }
 
     @Override
@@ -103,12 +99,12 @@ public class ActivityLogin extends AppCompatActivity implements UserLoginContrac
         Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
+
     @Override
-    public void setLatestData(UserDataModel userDataModel) {
+    public void setUserData(UserDataModel userDataModel) {
         String avatar = userDataModel.getData().getAvatar();
         PrefUtils.setAvatar(avatar);
         Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
         startActivity(intent);
-
     }
 }

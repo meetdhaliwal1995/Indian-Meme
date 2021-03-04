@@ -19,16 +19,13 @@ import in.indianmeme.app.ModelApi.Story.Story;
 import jp.shts.android.storiesprogressview.StoriesProgressView;
 
 public class ActivityStory extends AppCompatActivity implements StoriesProgressView.StoriesListener {
+    private static final int PROGRESS_COUNT = 6;
     ImageView image;
     StoriesProgressView storiesProgressView;
-
-    private static final int PROGRESS_COUNT = 6;
-    private int counter = 0;
-
     long pressTime = 0L;
     long limit = 500L;
     List<Story> stories;
-
+    private int counter = 0;
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -80,7 +77,7 @@ public class ActivityStory extends AppCompatActivity implements StoriesProgressV
     public void onNext() {
         counter++;
         Glide.with(getApplicationContext()).load(stories.get(counter).getMediaFile()).into(image);
-        Log.e("nxt","btn");
+        Log.e("nxt", "btn");
     }
 
     @Override
@@ -88,7 +85,7 @@ public class ActivityStory extends AppCompatActivity implements StoriesProgressV
         if ((counter - 1) < 0) return;
         --counter;
         Glide.with(getApplicationContext()).load(stories.get(counter).getMediaFile()).into(image);
-        Log.e("pre","btn");
+        Log.e("pre", "btn");
     }
 
     @Override

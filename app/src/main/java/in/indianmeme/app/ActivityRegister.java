@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.indianmeme.app.ModelApi.UserRegisterModel.UserRegisterModel;
-import in.indianmeme.app.presenter.RegisterUserPresenter;
-import in.indianmeme.app.views.UserRegisterContract;
+import in.indianmeme.app.presenter.PostPresenter;
+import in.indianmeme.app.views.PostContract;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityRegister extends AppCompatActivity implements UserRegisterContract.UserView {
+public class ActivityRegister extends AppCompatActivity implements PostContract.PostView {
 
     public static final String Mypre = "Mypres";
     ImageView back;
@@ -32,6 +32,7 @@ public class ActivityRegister extends AppCompatActivity implements UserRegisterC
     Button createAccount;
     TextView signIN;
     SharedPreferences sharedPreferences;
+    PostPresenter postPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +46,8 @@ public class ActivityRegister extends AppCompatActivity implements UserRegisterC
         confirm = findViewById(R.id.text_confirmpassword);
         createAccount = findViewById(R.id.text_createaccount);
         signIN = findViewById(R.id.text_signin);
-        final RegisterUserPresenter presenter = new RegisterUserPresenter(this);
+//        final RegisterUserPresenter presenter = new RegisterUserPresenter(this);
+        postPresenter = new PostPresenter(this);
 
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +95,8 @@ public class ActivityRegister extends AppCompatActivity implements UserRegisterC
                     map.put("password", passWord);
                     map.put("conf_password", confirmPassword);
 
-                    presenter.getData(map);
+//                    presenter.getData(map);
+                    postPresenter.getUseregister(map);
                 }
             }
         });
@@ -141,7 +144,7 @@ public class ActivityRegister extends AppCompatActivity implements UserRegisterC
     }
 
     @Override
-    public void setLatestData(UserRegisterModel userRegister) {
+    public void setUserRegister(UserRegisterModel userRegister) {
         if (userRegister.getCode().equals(Constant.OK)) {
             String accesstoken = userRegister.getData().getAccessToken();
             saveData(Constant.ACCESS_TOKEN, accesstoken);

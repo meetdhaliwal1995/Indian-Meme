@@ -10,6 +10,8 @@ import in.indianmeme.app.ModelApi.AddUserReply.AddReplyModel;
 import in.indianmeme.app.ModelApi.Comments.CommentInfoModel;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
 import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
+import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
+import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
 import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
 import in.indianmeme.app.ModelApi.Follow.FollowUserModel;
 import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
@@ -110,4 +112,13 @@ public interface NetworkInterface {
     @POST(Constant.USER_DATA)
     @FormUrlEncoded
     Call<UserDataModel> userData(@FieldMap Map<String, Object> map);
+
+    @POST(Constant.DELETE_COMMENT)
+    @FormUrlEncoded
+    Call<DeleteCommentModel> deleteComment(@FieldMap Map<String, Object> map);
+
+    @POST(Constant.DELETE_REPLY)
+    @FormUrlEncoded
+    Call<DeleteReplyModel> deleteReply(@FieldMap Map<String, Object> map);
+
 }

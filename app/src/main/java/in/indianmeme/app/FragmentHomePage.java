@@ -35,31 +35,19 @@ import in.indianmeme.app.Adapters.AdapterStory;
 import in.indianmeme.app.ModelApi.AddLike.LikesUnlikeModel;
 import in.indianmeme.app.ModelApi.AddStory.AddStoryUser;
 import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
-import in.indianmeme.app.ModelApi.ExplorePosts.DatumExplore;
-import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
+import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
 import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
-import in.indianmeme.app.presenter.AddStoryPresenter;
-import in.indianmeme.app.presenter.DeletePresenter;
-import in.indianmeme.app.presenter.LikePresenter;
-import in.indianmeme.app.presenter.LogoutPresenter;
-import in.indianmeme.app.presenter.PostHomeExplorerPresenter;
-import in.indianmeme.app.presenter.StoryPresenter;
-import in.indianmeme.app.views.AddStroyContract;
-import in.indianmeme.app.views.DeleteContract;
-import in.indianmeme.app.views.LikeContract;
-import in.indianmeme.app.views.LogoutContract;
-import in.indianmeme.app.views.PostHomeExploreContract;
-import in.indianmeme.app.views.StoryContract;
+import in.indianmeme.app.presenter.PostPresenter;
+import in.indianmeme.app.views.PostContract;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class FragmentHomePage extends Fragment implements PostHomeExploreContract.ExploreView,
-        StoryContract.UserStoryView, LikeContract.LikeView,
-        SwipeRefreshLayout.OnRefreshListener, LogoutContract.LogoutView,
+public class FragmentHomePage extends Fragment implements
+        SwipeRefreshLayout.OnRefreshListener,
         InterfaceAdapterHome, FragmentVideoView.VideoCallBack,
-        DeleteContract.DelteView, AddStroyContract.AddStoryView {
+        PostContract.PostView {
 
     RecyclerView recyclerView, recyclerView1;
     ImageView home, myProfile, add, more, logout, addStory;
@@ -67,17 +55,12 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
     String postid;
     SwipeRefreshLayout swipeRefreshLayout;
     AdapterHome adapterHome;
-    PostHomeExplorerPresenter homePagePresenter;
     Map<String, Object> map1;
-    Map<String, Object> map;
+    Map<String, Object> mapStory;
+    Map<String, Object> mapHome;
     FragmentLoginUserHome fragmentLoginUserHome;
-    LogoutPresenter logoutPresenter;
-    DeletePresenter deletePresenter;
-    LikePresenter likePresenter;
-    StoryPresenter storyPresenter;
-    FragmentVideoView fragmentVideoView;
-    AddStoryPresenter addStoryPresenter;
     AdapterStory adapterStory;
+    PostPresenter postPresenter;
     int videopos;
     int postPos;
 
@@ -126,12 +109,7 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
             }
         });
 
-        homePagePresenter = new PostHomeExplorerPresenter(this);
-        storyPresenter = new StoryPresenter(this);
-        logoutPresenter = new LogoutPresenter(this);
-        likePresenter = new LikePresenter(this);
-        deletePresenter = new DeletePresenter(this);
-        addStoryPresenter = new AddStoryPresenter(this);
+        postPresenter = new PostPresenter(this);
 
 
         addStory.setOnClickListener(v -> {
@@ -144,25 +122,32 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
             final Map<String, Object> map1 = new HashMap<>();
             map1.put("access_token", PrefUtils.getAccessToken());
             map1.put("server_key", Constant.SERVER_KEY);
-            logoutPresenter.getData(map1);
+            postPresenter.getLogout(map1);
             Toast.makeText(getContext(), "logout", Toast.LENGTH_SHORT).show();
 
         });
 
 
-        map = new HashMap<>();
-        map.put("access_token", PrefUtils.getAccessToken());
-        map.put("server_key", Constant.SERVER_KEY);
-        map.put("limit", 50);
-        homePagePresenter.getData(map);
-        storyPresenter.getData(map);
+        mapStory = new HashMap<>();
+        mapStory.put("access_token", PrefUtils.getAccessToken());
+        mapStory.put("server_key", Constant.SERVER_KEY);
+//        map.put("limit", 50);
+//        homePresenter.getData(map);
+//        storyPresenter.getData(mapStory);
+        postPresenter.getStory(mapStory);
+
+        mapHome = new HashMap<>();
+        mapHome.put("access_token", PrefUtils.getAccessToken());
+        mapHome.put("server_key", Constant.SERVER_KEY);
+//        homePresenter.getData(mapHome);
+        postPresenter.getPostHome(mapHome);
 
         map1 = new HashMap<>();
         map1.put("access_token", PrefUtils.getAccessToken());
         map1.put("server_key", Constant.SERVER_KEY);
         map1.put("post_id", postid);
-        likePresenter.getData(map1);
-
+//        likePresenter.getData(map1);
+        postPresenter.getLike(map1);
 
     }
 
@@ -194,7 +179,13 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
         mapLike.put("server_key", Constant.SERVER_KEY);
         mapLike.put("access_token", PrefUtils.getAccessToken());
         mapLike.put("post_id", postId);
-        likePresenter.getData(mapLike);
+//        likePresenter.getData(mapLike);
+        postPresenter.getLike(mapLike);
+    }
+
+    @Override
+    public void callBackVideo(String file, int pos) {
+
     }
 
 
@@ -209,23 +200,21 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
     }
 
     @Override
-    public void setLatestData(StoryFetchModel storyFetch) {
-        Log.e("check","story add");
-        if (!storyFetch.getData().isEmpty()) {
-            adapterStory.addPost(storyFetch.getData());
-            Log.e("checkk","story add");
-        } else {
-            recyclerView1.setVisibility(View.GONE);
-        }
+    public void setHomePagePost(HomePageDataModel homePageDataModel) {
+        swipeRefreshLayout.setRefreshing(false);
+        adapterHome.addPost(homePageDataModel.getData());
+
     }
 
     @Override
-    public void setLatestData(PostExploreModel postExplore) {
-
-        swipeRefreshLayout.setRefreshing(false);
-
-        adapterHome.addPost(postExplore.getData());
-
+    public void setStory(StoryFetchModel storyFetch) {
+        Log.e("check", "story add");
+        if (!storyFetch.getData().isEmpty()) {
+            adapterStory.addPost(storyFetch.getData());
+            Log.e("checkk", "story add");
+        } else {
+            recyclerView1.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -237,17 +226,19 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
     public void onRefresh() {
         adapterHome.clearPost();
         adapterStory.clearStory();
-        storyPresenter.getData(map);
-        homePagePresenter.getData(map);
+//        storyPresenter.getData(mapStory);
+//        homePresenter.getData(mapHome);
+        postPresenter.getStory(mapStory);
+        postPresenter.getPostHome(mapHome);
+    }
+
+
+    @Override
+    public void setLike(LikesUnlikeModel likesUnlike) {
     }
 
     @Override
-    public void setLatestData(LikesUnlikeModel likesUnlike) {
-
-    }
-
-    @Override
-    public void setLatestData(LogoutUserModel logoutUser) {
+    public void setLogoutUser(LogoutUserModel logoutUser) {
         PrefUtils.setAccessToken(null);
         Toast.makeText(getContext(), logoutUser.getMessage(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), ActivityLogin.class);
@@ -256,37 +247,15 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
     }
 
     @Override
-    public void callBackVideo(String file, int pos) {
-        videopos = pos;
-
-//        AdapterHome.ImageViewHolder holder = (AdapterHome.ImageViewHolder) recyclerView.findViewHolderForAdapterPosition(pos);
-
-        fragmentVideoView = new FragmentVideoView();
-        fragmentVideoView.setVideoView(file);
-        fragmentVideoView.setVideoCallBack(this);
-//        getFragmentManager().beginTransaction()
-//                .add(viewHolder.container.getId(), fragmentVideoView)
-//                .addToBackStack("ggg")
-//                .commit();
-    }
-
-    @Override
     public void deletePost(Map<String, Object> map, int pos) {
-        deletePresenter.getData(map);
+//        deletePresenter.getData(map);
+        postPresenter.getDeletePost(map);
         adapterHome.updateList(pos);
 
     }
 
     @Override
-    public void videoCompleted() {
-        getFragmentManager().beginTransaction()
-                .remove(fragmentVideoView)
-                .commit();
-    }
-
-    @Override
-    public void setLatestData(DeletePostModel deletePost) {
-
+    public void setDeletePost(DeletePostModel deletePost) {
         Toast.makeText(getContext(), deletePost.getMessage(), Toast.LENGTH_SHORT).show();
 
     }
@@ -322,7 +291,8 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
                     MultipartBody.Part server_key = MultipartBody.Part.createFormData("server_key", Constant.SERVER_KEY);
                     MultipartBody.Part access_token = MultipartBody.Part.createFormData("access_token", PrefUtils.getAccessToken());
                     MultipartBody.Part caption = MultipartBody.Part.createFormData("caption", "sd");
-                    addStoryPresenter.getData(story, server_key, access_token);
+//                    addStoryPresenter.getData(story, server_key, access_token);
+                    postPresenter.getAddStory(story, server_key, access_token);
                     Log.e("dddd", "image");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -332,13 +302,17 @@ public class FragmentHomePage extends Fragment implements PostHomeExploreContrac
     }
 
     @Override
-    public void setLatestData(AddStoryUser addStoryUser) {
-
+    public void setAddStory(AddStoryUser addStoryUser) {
         Toast.makeText(getContext(), addStoryUser.getData().getMessage(), Toast.LENGTH_SHORT).show();
 
     }
 
     private void menuPopUp() {
         PopupMenu popupMenu = new PopupMenu(getContext(), logout);
+    }
+
+    @Override
+    public void videoCompleted() {
+
     }
 }

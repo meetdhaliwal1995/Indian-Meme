@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,20 +28,14 @@ import in.indianmeme.app.ModelApi.AddUserReply.AddReplyModel;
 import in.indianmeme.app.ModelApi.Comments.CommentInfoModel;
 import in.indianmeme.app.ModelApi.Comments.Datum;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
-import in.indianmeme.app.presenter.AddCommentsPresenter;
-import in.indianmeme.app.presenter.CommentsPresenter;
-import in.indianmeme.app.presenter.FetchReplyPresenter;
-import in.indianmeme.app.presenter.UserAddRplyPresenter;
-import in.indianmeme.app.views.AddCommentContract;
-import in.indianmeme.app.views.AddRplyContract;
-import in.indianmeme.app.views.FetchReplyContract;
-import in.indianmeme.app.views.UserCommentContract;
+import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
+import in.indianmeme.app.presenter.PostPresenter;
+import in.indianmeme.app.views.PostContract;
+
 
 public class ActivityComments extends AppCompatActivity implements
-        UserCommentContract.UserCommentView, AddCommentContract.AddCommentView,
         SwipeRefreshLayout.OnRefreshListener, InterfaceComment,
-        FetchReplyContract.AddRplyView,
-        AddRplyContract.AddRplyView {
+        PostContract.PostView {
 
     ImageView back, profile;
     EditText comment, post;
@@ -48,12 +43,9 @@ public class ActivityComments extends AppCompatActivity implements
     RecyclerView recyclerView;
     AdapterComment adapterAddComment;
     SwipeRefreshLayout swipeRefreshLayout;
-    CommentsPresenter commentsPresenter;
-    AddCommentsPresenter addCommentsPresenter;
     Map<String, Object> map;
-    FetchReplyPresenter fetchReplyPresenter;
     FragmentHomePage fragmentHomePage;
-    UserAddRplyPresenter addRplyPresenter;
+    PostPresenter postPresenter;
 
     int adpos;
 
@@ -86,11 +78,7 @@ public class ActivityComments extends AppCompatActivity implements
             }
         });
 
-
-        commentsPresenter = new CommentsPresenter(this);
-        addCommentsPresenter = new AddCommentsPresenter(this);
-        fetchReplyPresenter = new FetchReplyPresenter(this);
-        addRplyPresenter = new UserAddRplyPresenter(this);
+        postPresenter = new PostPresenter(this);
 
         final String post_id = String.valueOf(getIntent().getStringExtra("post_id"));
 
@@ -101,7 +89,8 @@ public class ActivityComments extends AppCompatActivity implements
         map.put("access_token", PrefUtils.getAccessToken());
         map.put("server_key", Constant.SERVER_KEY);
         map.put("post_id", post_id);
-        commentsPresenter.getData(map);
+//        commentsPresenter.getData(map);
+        postPresenter.getUserComment(map);
 
         postAddCmt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +100,7 @@ public class ActivityComments extends AppCompatActivity implements
                 map1.put("server_key", Constant.SERVER_KEY);
                 map1.put("post_id", post_id);
                 map1.put("text", comment.getText().toString());
-                addCommentsPresenter.getData(map1);
+                postPresenter.getAddComment(map1);
                 comment.setText("");
             }
         });
@@ -138,26 +127,28 @@ public class ActivityComments extends AppCompatActivity implements
 
     }
 
+
     @Override
-    public void setLatestData(AddCommentModel addComment) {
+    public void setAddComment(AddCommentModel addComment) {
         adapterAddComment.addComment(addComment.getData());
     }
 
+
     @Override
-    public void setLatestData(CommentInfoModel commentInfo) {
+    public void setUserComment(CommentInfoModel commentInfo) {
         swipeRefreshLayout.setRefreshing(false);
         adapterAddComment.addComment(commentInfo.getData());
     }
 
-    @Override
-    public void showError(String error) {
-
-    }
+//    @Override
+//    public void showError(String error) {
+//
+//    }
 
     @Override
     public void onRefresh() {
         initCommentAdapter();
-        commentsPresenter.getData(map);
+        postPresenter.getUserComment(map);
     }
 
     @Override
@@ -167,11 +158,12 @@ public class ActivityComments extends AppCompatActivity implements
         map1.put("access_token", PrefUtils.getAccessToken());
         map1.put("server_key", Constant.SERVER_KEY);
         map1.put("comment_id", commentId);
-        fetchReplyPresenter.getData(map1);
+        postPresenter.getFetchReply(map1);
     }
 
+
     @Override
-    public void setLatestData(FetchReplyModel fetchReplyModel) {
+    public void setFetchReply(FetchReplyModel fetchReplyModel) {
         AdapterComment.CommentViewHolder commentViewHolder =
                 (AdapterComment.CommentViewHolder) recyclerView.findViewHolderForAdapterPosition(adpos);
 
@@ -191,7 +183,8 @@ public class ActivityComments extends AppCompatActivity implements
                 addreply.put("server_key", Constant.SERVER_KEY);
                 addreply.put("comment_id", commentId);
                 addreply.put("text", comment.getText().toString());
-                addRplyPresenter.getData(addreply);
+//                addRplyPresenter.getData(addreply);
+                postPresenter.getAddReply(addreply);
 
                 inputMethodManager.hideSoftInputFromWindow(comment.getWindowToken(), 0);
                 comment.clearFocus();
@@ -201,9 +194,29 @@ public class ActivityComments extends AppCompatActivity implements
 
     }
 
+
     @Override
-    public void setLatestData(AddReplyModel addReplyModel) {
+    public void deleteComment(Map<String, Object> map, int adapterPosition) {
+        postPresenter.getDeleteComment(map);
+        adapterAddComment.updateList(adapterPosition);
+
+    }
+
+    @Override
+    public void deleteReply(Map<String, Object> map, int adapterPosition) {
+        postPresenter.getDeleteReply(map);
+    }
+
+
+    @Override
+    public void setAddReply(AddReplyModel addReplyModel) {
         initCommentAdapter();
-        commentsPresenter.getData(map);
+//        commentsPresenter.getData(map);
+        postPresenter.getUserComment(map);
+    }
+
+    @Override
+    public void setDeleteCommentData(DeleteCommentModel deleteComment) {
+        Toast.makeText(getApplicationContext(), "Comment Delete", Toast.LENGTH_SHORT).show();
     }
 }

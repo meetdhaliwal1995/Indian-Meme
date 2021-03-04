@@ -22,19 +22,18 @@ import java.util.Map;
 import in.indianmeme.app.Adapters.AdapterUser;
 import in.indianmeme.app.ModelApi.Follow.FollowUserModel;
 import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
-import in.indianmeme.app.presenter.FollowPresenter;
-import in.indianmeme.app.presenter.UserProfilePresenter;
-import in.indianmeme.app.views.FollowContract;
-import in.indianmeme.app.views.UserProfileContract;
+import in.indianmeme.app.presenter.PostPresenter;
+import in.indianmeme.app.views.PostContract;
 
-public class FragmentUserHome extends Fragment implements UserProfileContract.UserProfileView, FollowContract.FollowView {
+
+public class FragmentUserHome extends Fragment implements PostContract.PostView {
     TextView userName, userLocation, posts, followers, following, about, getUserName, follow;
     ImageView profileImage, home, add;
     RecyclerView recyclerView;
     int getid;
     Layout topbar;
-    FollowPresenter followPresenter;
     Map<String, Object> map;
+    PostPresenter postPresenter;
 
     @Nullable
     @Override
@@ -63,8 +62,9 @@ public class FragmentUserHome extends Fragment implements UserProfileContract.Us
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        UserProfilePresenter userProfilePresenter = new UserProfilePresenter(this);
-        followPresenter = new FollowPresenter(this);
+//        UserProfilePresenter userProfilePresenter = new UserProfilePresenter(this);
+//        followPresenter = new FollowPresenter(this);
+        postPresenter = new PostPresenter(this);
         String access_token = PrefUtils.getAccessToken();
         String server_key = Constant.SERVER_KEY;
 
@@ -73,12 +73,14 @@ public class FragmentUserHome extends Fragment implements UserProfileContract.Us
         map.put("access_token", access_token);
         map.put("server_key", server_key);
         map.put("user_id", getid);
-        userProfilePresenter.getData(map);
+//        userProfilePresenter.getData(map);
+        postPresenter.getUserProfile(map);
 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                followPresenter.getData(map);
+//                followPresenter.getData(map);
+                postPresenter.getFollow(map);
             }
         });
 
@@ -94,9 +96,9 @@ public class FragmentUserHome extends Fragment implements UserProfileContract.Us
 
     }
 
-    @Override
-    public void setLatestData(UserProfileModel userProfile) {
 
+    @Override
+    public void setUserProfile(UserProfileModel userProfile) {
         boolean is_following = userProfile.getData().getIsFollowing();
 
         if (is_following) {
@@ -114,11 +116,12 @@ public class FragmentUserHome extends Fragment implements UserProfileContract.Us
     }
 
     public void setid(int userid) {
-        this.getid = userid;
+        getid = userid;
     }
 
+
     @Override
-    public void setLatestData(FollowUserModel followUserModel) {
+    public void setFollowUser(FollowUserModel followUserModel) {
         int type = followUserModel.getType();
 
 

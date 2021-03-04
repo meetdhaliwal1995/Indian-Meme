@@ -26,7 +26,7 @@ public class FragmentVideoView extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        video = view.findViewById(R.id.view_video);
+        video = view.findViewById(R.id.video_view);
 
         video.setVideoPath(url);
         video.start();

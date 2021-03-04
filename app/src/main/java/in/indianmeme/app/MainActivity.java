@@ -29,23 +29,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import in.indianmeme.app.ModelApi.AddImz.AddPicModel;
-import in.indianmeme.app.presenter.AddImzPresenter;
-import in.indianmeme.app.presenter.AddVideoPresenter;
-import in.indianmeme.app.views.AddImzContract;
-import in.indianmeme.app.views.AddVideoContract;
+import in.indianmeme.app.presenter.PostPresenter;
+import in.indianmeme.app.views.PostContract;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class MainActivity extends AppCompatActivity implements AddImzContract.AddImzView, AddVideoContract.AddVideoView {
+public class MainActivity extends AppCompatActivity implements PostContract.PostView {
 
 
     FragmentHomePage fragmentHomePage;
     FragmentLoginUserHome fragmentUserLoginHome;
     ImageView logout;
-    ImageView home, perosn, add;
-    AddImzPresenter addImzPresenter;
-    AddVideoPresenter addVideoPresenter;
+    ImageView home, perosn, add, explore;
+    FragmentExplorePost fragmentExplorePost;
+    PostPresenter postPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +55,27 @@ public class MainActivity extends AppCompatActivity implements AddImzContract.Ad
         home = findViewById(R.id.home_imz);
         perosn = findViewById(R.id.person_image);
         add = findViewById(R.id.add_image);
-        addImzPresenter = new AddImzPresenter(this);
-        addVideoPresenter = new AddVideoPresenter(this);
+        explore = findViewById(R.id.explore_image);
+//        addImzPresenter = new AddImzPresenter(this);
+//        addVideoPresenter = new AddVideoPresenter(this);
+        postPresenter = new PostPresenter(this);
 
 
         fragmentHomePage = new FragmentHomePage();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container_layout, fragmentHomePage)
                 .commit();
+
+        explore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentExplorePost = new FragmentExplorePost();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_layout, fragmentExplorePost)
+                        .addToBackStack("dddd")
+                        .commit();
+            }
+        });
 
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +122,10 @@ public class MainActivity extends AppCompatActivity implements AddImzContract.Ad
 
 
             if (requestCode == Constant.REQUEST_CODE_PICTURE) {
+                Log.e("uri", String.valueOf(uri));
 
-                if (uri.toString().contains("jpg")) {
+                if (uri.toString().contains("image")) {
+
                     try {
                         String fileName = uri.getPath().split(":")[1];
 
@@ -133,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements AddImzContract.Ad
                         MultipartBody.Part server_key = MultipartBody.Part.createFormData("server_key", Constant.SERVER_KEY);
                         MultipartBody.Part access_token = MultipartBody.Part.createFormData("access_token", PrefUtils.getAccessToken());
                         MultipartBody.Part caption = MultipartBody.Part.createFormData("caption", "sd");
-                        addImzPresenter.getData(images, server_key, access_token, caption);
+                        postPresenter.getAddImz(images, server_key, access_token, caption);
                         Log.e("dddd", "image");
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -168,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements AddImzContract.Ad
                                     MultipartBody.Part access_token = MultipartBody.Part.createFormData("access_token", PrefUtils.getAccessToken());
                                     MultipartBody.Part caption = MultipartBody.Part.createFormData("caption", "sd");
                                     MultipartBody.Part thumb = MultipartBody.Part.createFormData("thumb", file1.getName(), requestBodyThumb);
-                                    addVideoPresenter.getData(video, server_key, access_token, thumb, caption);
+                                    postPresenter.getAddVideo(video, server_key, access_token, thumb, caption);
                                     Log.e("dddd", "video");
 
                                     return false;
@@ -183,7 +196,8 @@ public class MainActivity extends AppCompatActivity implements AddImzContract.Ad
     }
 
     @Override
-    public void setLatestData(AddPicModel addPic) {
+    public void setAddImz(AddPicModel addPic) {
         Toast.makeText(getApplicationContext(), addPic.getMessage(), Toast.LENGTH_SHORT).show();
+
     }
 }

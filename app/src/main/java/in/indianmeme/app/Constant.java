@@ -42,6 +42,8 @@ public class Constant {
     public static final String ADD_REPLY = "endpoints/v1/post/add_reply";
     public static final String USER_DATA = "endpoints/v1/user/fetch_userdata";
     public static final String ADD_STORY = "endpoints/v1/story/create_story";
+    public static final String DELETE_COMMENT = "endpoints/v1/post/delete_comment";
+    public static final String DELETE_REPLY = "endpoints/v1/post/delete_reply";
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access

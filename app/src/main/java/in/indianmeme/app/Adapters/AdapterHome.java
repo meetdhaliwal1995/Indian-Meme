@@ -28,19 +28,19 @@ import java.util.Map;
 import in.indianmeme.app.ActivityComments;
 import in.indianmeme.app.Constant;
 import in.indianmeme.app.InterfaceAdapterHome;
-import in.indianmeme.app.ModelApi.ExplorePosts.DatumExplore;
+import in.indianmeme.app.ModelApi.HomePage.Datum;
 import in.indianmeme.app.PrefUtils;
 import in.indianmeme.app.R;
 
 public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
-    private final List<DatumExplore> _list;
+    private final List<Datum> _list;
     private final InterfaceAdapterHome interfaceAdapterHome;
     private final int IMAGE_VIEW = 0;
     private final int VIDEO_VIEW = 1;
 
-    public AdapterHome(Context context, List<DatumExplore> _list, InterfaceAdapterHome interfaceAdapterHome) {
+    public AdapterHome(Context context, List<Datum> _list, InterfaceAdapterHome interfaceAdapterHome) {
         this.context = context;
         this._list = _list;
         this.interfaceAdapterHome = interfaceAdapterHome;
@@ -61,7 +61,7 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        DatumExplore data = _list.get(position);
+        Datum data = _list.get(position);
 
         if (data.getType().equals("image")) {
             ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
@@ -80,6 +80,12 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             imageViewHolder.likes.setText(String.valueOf(data.getLikes()));
             imageViewHolder.timepost.setText(data.getTimeText());
+
+            if (data.getIsLiked()) {
+                imageViewHolder.likeimz.setImageResource(R.drawable.ic_baseline_favorite_fill);
+            } else {
+                imageViewHolder.likeimz.setImageResource(R.drawable.ic_baseline_favorite_notfill);
+            }
         } else {
             VideoViewHolder videoViewHolder = (VideoViewHolder) holder;
             videoViewHolder.userName.setText(data.getUsername());
@@ -105,12 +111,17 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             videoViewHolder.likes.setText(String.valueOf(data.getLikes()));
             videoViewHolder.timepost.setText(data.getTimeText());
+            if (data.getIsLiked()) {
+                videoViewHolder.likeimz.setImageResource(R.drawable.ic_baseline_favorite_fill);
+            } else {
+                videoViewHolder.likeimz.setImageResource(R.drawable.ic_baseline_favorite_notfill);
+            }
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        DatumExplore data = _list.get(position);
+        Datum data = _list.get(position);
 
         if (data.getType().equals("image")) {
             return IMAGE_VIEW;
@@ -124,7 +135,7 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return _list.size();
     }
 
-    public void addPost(List<DatumExplore> _data) {
+    public void addPost(List<Datum> _data) {
         _list.addAll(_data);
         notifyDataSetChanged();
     }
@@ -203,20 +214,30 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 alertDialog.show();
                 TextView delete;
                 delete = view2.findViewById(R.id.delete);
-                delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.e("delte", "post");
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("server_key", Constant.SERVER_KEY);
-                        map.put("access_token", PrefUtils.getAccessToken());
-                        map.put("post_id", _list.get(getAdapterPosition()).getPostId());
-                        Log.e("delte", "post");
-                        interfaceAdapterHome.deletePost(map, getAdapterPosition());
-                        Log.e("delte", "postt");
-                        alertDialog.dismiss();
-                    }
-                });
+
+                if (_list.get(getAdapterPosition()).getIsOwner()) {
+                    delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.e("delte", "post");
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("server_key", Constant.SERVER_KEY);
+                            map.put("access_token", PrefUtils.getAccessToken());
+                            map.put("post_id", _list.get(getAdapterPosition()).getPostId());
+                            Log.e("delte", "post");
+                            interfaceAdapterHome.deletePost(map, getAdapterPosition());
+                            Log.e("delte", "postt");
+                            alertDialog.dismiss();
+                            Log.e("delete", "button");
+                        }
+                    });
+                    Log.e("mmore", "btn");
+
+                } else {
+                    delete.setVisibility(View.GONE);
+                    Log.e("delete", "btn");
+
+                }
             });
         }
 
@@ -239,7 +260,7 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             more = itemView.findViewById(R.id.more_image);
             timepost = itemView.findViewById(R.id.user_post_time);
             play = itemView.findViewById(R.id.play_btn);
-            videoView = itemView.findViewById(R.id.view_video);
+            videoView = itemView.findViewById(R.id.video_video);
             userImage = itemView.findViewById(R.id.user_image);
             views = itemView.findViewById(R.id.views);
 
@@ -290,20 +311,25 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 alertDialog.show();
                 TextView delete;
                 delete = view2.findViewById(R.id.delete);
-                delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.e("delte", "post");
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("server_key", Constant.SERVER_KEY);
-                        map.put("access_token", PrefUtils.getAccessToken());
-                        map.put("post_id", _list.get(getAdapterPosition()).getPostId());
-                        Log.e("delte", "post");
-                        interfaceAdapterHome.deletePost(map, getAdapterPosition());
-                        Log.e("delte", "postt");
-                        alertDialog.dismiss();
-                    }
-                });
+                if (_list.get(getAdapterPosition()).getIsOwner()) {
+
+                    delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.e("delte", "post");
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("server_key", Constant.SERVER_KEY);
+                            map.put("access_token", PrefUtils.getAccessToken());
+                            map.put("post_id", _list.get(getAdapterPosition()).getPostId());
+                            Log.e("delte", "post");
+                            interfaceAdapterHome.deletePost(map, getAdapterPosition());
+                            Log.e("delte", "postt");
+                            alertDialog.dismiss();
+                        }
+                    });
+                } else {
+                    delete.setVisibility(View.GONE);
+                }
             });
 
 
@@ -328,8 +354,5 @@ public class AdapterHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
         }
-
     }
 }
-
-

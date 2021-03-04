@@ -17,7 +17,7 @@
     <!--        tools:ignore="UnknownId" />-->
 
     <VideoView
-        android:id="@+id/view_video"
+        android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

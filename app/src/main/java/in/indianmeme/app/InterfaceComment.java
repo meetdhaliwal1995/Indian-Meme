@@ -1,5 +1,7 @@
 package in.indianmeme.app;
 
+import java.util.Map;
+
 public interface InterfaceComment {
 
 
@@ -9,4 +11,7 @@ public interface InterfaceComment {
     void callUserReply(int commentId);
 
 
+    void deleteComment(Map<String, Object> map, int adapterPosition);
+
+    void deleteReply(Map<String, Object> map, int adapterPosition);
 }
