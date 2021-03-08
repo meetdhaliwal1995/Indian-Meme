@@ -41,7 +41,7 @@ public class ActivityComments extends AppCompatActivity implements
     EditText comment, post;
     TextView postAddCmt;
     RecyclerView recyclerView;
-    AdapterComment adapterAddComment;
+    AdapterComment adapterComment;
     SwipeRefreshLayout swipeRefreshLayout;
     Map<String, Object> map;
     FragmentHomePage fragmentHomePage;
@@ -107,14 +107,14 @@ public class ActivityComments extends AppCompatActivity implements
     }
 
     private void initCommentAdapter() {
-        if (adapterAddComment != null) {
-            adapterAddComment.clearComments();
+        if (adapterComment != null) {
+            adapterComment.clearComments();
             recyclerView.setAdapter(null);
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapterAddComment = new AdapterComment(this, new ArrayList<Datum>(), this);
-        recyclerView.setAdapter(adapterAddComment);
+        adapterComment = new AdapterComment(this, new ArrayList<Datum>(), this);
+        recyclerView.setAdapter(adapterComment);
     }
 
     @Override
@@ -129,15 +129,15 @@ public class ActivityComments extends AppCompatActivity implements
 
 
     @Override
-    public void setAddComment(AddCommentModel addComment) {
-        adapterAddComment.addComment(addComment.getData());
+    public void setAddComment(AddCommentModel addCommentModel) {
+        adapterComment.addComment(addCommentModel.getData());
     }
 
 
     @Override
     public void setUserComment(CommentInfoModel commentInfo) {
         swipeRefreshLayout.setRefreshing(false);
-        adapterAddComment.addComment(commentInfo.getData());
+        adapterComment.addComment(commentInfo.getData());
     }
 
 //    @Override
@@ -198,7 +198,7 @@ public class ActivityComments extends AppCompatActivity implements
     @Override
     public void deleteComment(Map<String, Object> map, int adapterPosition) {
         postPresenter.getDeleteComment(map);
-        adapterAddComment.updateList(adapterPosition);
+        adapterComment.updateList(adapterPosition);
 
     }
 

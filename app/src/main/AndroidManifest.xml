@@ -33,6 +33,7 @@
         <activity android:name=".ActivityFront" />
         <activity android:name=".ActivityComments" />
         <activity android:name=".ActivityStory" />
+        <activity android:name=".ActivityChats"/>
     </application>
 
 </manifest>

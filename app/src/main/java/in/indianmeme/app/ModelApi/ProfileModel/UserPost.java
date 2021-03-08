@@ -1,11 +1,14 @@
 package in.indianmeme.app.ModelApi.ProfileModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class UserPost {
+public class UserPost implements Parcelable {
 
     @SerializedName("post_id")
     @Expose
@@ -97,6 +100,161 @@ public class UserPost {
     @SerializedName("comment_counts")
     @Expose
     private Integer commentCounts;
+
+    protected UserPost(Parcel in) {
+        if (in.readByte() == 0) {
+            postId = null;
+        } else {
+            postId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            userId = null;
+        } else {
+            userId = in.readInt();
+        }
+        description = in.readString();
+        link = in.readString();
+        youtube = in.readString();
+        vimeo = in.readString();
+        dailymotion = in.readString();
+        playtube = in.readString();
+        time = in.readString();
+        type = in.readString();
+        registered = in.readString();
+        if (in.readByte() == 0) {
+            views = null;
+        } else {
+            views = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            boosted = null;
+        } else {
+            boosted = in.readInt();
+        }
+        avatar = in.readString();
+        username = in.readString();
+        if (in.readByte() == 0) {
+            likes = null;
+        } else {
+            likes = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            votes = null;
+        } else {
+            votes = in.readInt();
+        }
+        mediaSet = in.createTypedArrayList(MediaSet.CREATOR);
+        byte tmpIsOwner = in.readByte();
+        isOwner = tmpIsOwner == 0 ? null : tmpIsOwner == 1;
+        byte tmpIsLiked = in.readByte();
+        isLiked = tmpIsLiked == 0 ? null : tmpIsLiked == 1;
+        byte tmpIsSaved = in.readByte();
+        isSaved = tmpIsSaved == 0 ? null : tmpIsSaved == 1;
+        byte tmpReported = in.readByte();
+        reported = tmpReported == 0 ? null : tmpReported == 1;
+        if (in.readByte() == 0) {
+            isVerified = null;
+        } else {
+            isVerified = in.readInt();
+        }
+        byte tmpIsShouldHide = in.readByte();
+        isShouldHide = tmpIsShouldHide == 0 ? null : tmpIsShouldHide == 1;
+        name = in.readString();
+        timeText = in.readString();
+        if (in.readByte() == 0) {
+            commentCounts = null;
+        } else {
+            commentCounts = in.readInt();
+        }
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (postId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(postId);
+        }
+        if (userId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userId);
+        }
+        dest.writeString(description);
+        dest.writeString(link);
+        dest.writeString(youtube);
+        dest.writeString(vimeo);
+        dest.writeString(dailymotion);
+        dest.writeString(playtube);
+        dest.writeString(time);
+        dest.writeString(type);
+        dest.writeString(registered);
+        if (views == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(views);
+        }
+        if (boosted == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(boosted);
+        }
+        dest.writeString(avatar);
+        dest.writeString(username);
+        if (likes == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(likes);
+        }
+        if (votes == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(votes);
+        }
+        dest.writeTypedList(mediaSet);
+        dest.writeByte((byte) (isOwner == null ? 0 : isOwner ? 1 : 2));
+        dest.writeByte((byte) (isLiked == null ? 0 : isLiked ? 1 : 2));
+        dest.writeByte((byte) (isSaved == null ? 0 : isSaved ? 1 : 2));
+        dest.writeByte((byte) (reported == null ? 0 : reported ? 1 : 2));
+        if (isVerified == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(isVerified);
+        }
+        dest.writeByte((byte) (isShouldHide == null ? 0 : isShouldHide ? 1 : 2));
+        dest.writeString(name);
+        dest.writeString(timeText);
+        if (commentCounts == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(commentCounts);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<UserPost> CREATOR = new Creator<UserPost>() {
+        @Override
+        public UserPost createFromParcel(Parcel in) {
+            return new UserPost(in);
+        }
+
+        @Override
+        public UserPost[] newArray(int size) {
+            return new UserPost[size];
+        }
+    };
 
     public Integer getPostId() {
         return postId;

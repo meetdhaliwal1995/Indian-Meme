@@ -7,14 +7,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,8 +64,7 @@ public class FragmentHomePage extends Fragment implements
     FragmentLoginUserHome fragmentLoginUserHome;
     AdapterStory adapterStory;
     PostPresenter postPresenter;
-    int videopos;
-    int postPos;
+
 
 
     @Nullable
@@ -119,12 +121,8 @@ public class FragmentHomePage extends Fragment implements
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), Constant.REQUEST_CODE_PICTURE);
         });
         logout.setOnClickListener(v -> {
-            final Map<String, Object> map1 = new HashMap<>();
-            map1.put("access_token", PrefUtils.getAccessToken());
-            map1.put("server_key", Constant.SERVER_KEY);
-            postPresenter.getLogout(map1);
-            Toast.makeText(getContext(), "logout", Toast.LENGTH_SHORT).show();
 
+            menuPopUp();
         });
 
 
@@ -308,7 +306,31 @@ public class FragmentHomePage extends Fragment implements
     }
 
     private void menuPopUp() {
+
         PopupMenu popupMenu = new PopupMenu(getContext(), logout);
+        popupMenu.getMenuInflater()
+                .inflate(R.menu.menu_popup, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.memu_1:
+                    final Map<String, Object> map1 = new HashMap<>();
+                    map1.put("access_token", PrefUtils.getAccessToken());
+                    map1.put("server_key", Constant.SERVER_KEY);
+                    postPresenter.getLogout(map1);
+                    Toast.makeText(getContext(), "logout", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.menu_2:
+
+
+            }
+            return false;
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), logout);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
+
+//        popupMenu.show();
     }
 
     @Override

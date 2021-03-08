@@ -1,7 +1,8 @@
 package in.indianmeme.app;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +28,13 @@ import in.indianmeme.app.views.PostContract;
 
 
 public class FragmentUserHome extends Fragment implements PostContract.PostView {
-    TextView userName, userLocation, posts, followers, following, about, getUserName, follow;
+    TextView userName, userLocation, posts, followers, following, about, getUserName, follow, message;
     ImageView profileImage, home, add;
     RecyclerView recyclerView;
     int getid;
-    Layout topbar;
     Map<String, Object> map;
     PostPresenter postPresenter;
+    UserProfileModel userProfileModel;
 
     @Nullable
     @Override
@@ -58,12 +59,11 @@ public class FragmentUserHome extends Fragment implements PostContract.PostView 
         home = view.findViewById(R.id.home_burger);
         add = view.findViewById(R.id.add_pic);
         follow = view.findViewById(R.id.text_follow);
+        message = view.findViewById(R.id.text_message);
 
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-//        UserProfilePresenter userProfilePresenter = new UserProfilePresenter(this);
-//        followPresenter = new FollowPresenter(this);
         postPresenter = new PostPresenter(this);
         String access_token = PrefUtils.getAccessToken();
         String server_key = Constant.SERVER_KEY;
@@ -83,6 +83,14 @@ public class FragmentUserHome extends Fragment implements PostContract.PostView 
                 postPresenter.getFollow(map);
             }
         });
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ActivityChats.class);
+                intent.putExtra("data", userProfileModel.getData());
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -99,6 +107,9 @@ public class FragmentUserHome extends Fragment implements PostContract.PostView 
 
     @Override
     public void setUserProfile(UserProfileModel userProfile) {
+        Log.e("chech", "profile");
+        userProfileModel = userProfile;
+
         boolean is_following = userProfile.getData().getIsFollowing();
 
         if (is_following) {

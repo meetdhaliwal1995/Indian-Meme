@@ -14,6 +14,8 @@ import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
 import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
 import in.indianmeme.app.ModelApi.Follow.FollowUserModel;
+import in.indianmeme.app.ModelApi.GetChat.GetChatModel;
+import in.indianmeme.app.ModelApi.GetUserMsg.GetUserMsgModel;
 import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
@@ -36,6 +38,14 @@ public interface PostContract {
         }
 
         default void showError(String error) {
+
+        }
+
+        default void setChat(GetChatModel getChatModel) {
+
+        }
+
+        default void setUserMsg(GetUserMsgModel getUserMsgModel) {
 
         }
 
@@ -127,6 +137,10 @@ public interface PostContract {
 
         }
 
+        default void getChat(Map<String, Object> map) {
+
+        }
+
         default void getDeleteReply(Map<String, Object> map) {
 
         }
@@ -200,6 +214,10 @@ public interface PostContract {
         }
 
         default void getUseregister(Map<String, Object> map) {
+
+        }
+
+        default void getUserMsg(Map<String, Object> map) {
 
         }
 

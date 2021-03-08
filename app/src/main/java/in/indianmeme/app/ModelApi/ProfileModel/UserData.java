@@ -1,9 +1,12 @@
 package in.indianmeme.app.ModelApi.ProfileModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserData {
+public class UserData implements Parcelable {
 
     @SerializedName("user_id")
     @Expose
@@ -182,6 +185,308 @@ public class UserData {
     @SerializedName("time_text")
     @Expose
     private String timeText;
+
+    protected UserData(Parcel in) {
+        if (in.readByte() == 0) {
+            userId = null;
+        } else {
+            userId = in.readInt();
+        }
+        username = in.readString();
+        email = in.readString();
+        ipAddress = in.readString();
+        fname = in.readString();
+        lname = in.readString();
+        gender = in.readString();
+        emailCode = in.readString();
+        language = in.readString();
+        avatar = in.readString();
+        cover = in.readString();
+        if (in.readByte() == 0) {
+            countryId = null;
+        } else {
+            countryId = in.readInt();
+        }
+        google = in.readString();
+        facebook = in.readString();
+        twitter = in.readString();
+        website = in.readString();
+        if (in.readByte() == 0) {
+            active = null;
+        } else {
+            active = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            admin = null;
+        } else {
+            admin = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            verified = null;
+        } else {
+            verified = in.readInt();
+        }
+        lastSeen = in.readString();
+        registered = in.readString();
+        if (in.readByte() == 0) {
+            isPro = null;
+        } else {
+            isPro = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            posts = null;
+        } else {
+            posts = in.readInt();
+        }
+        pPrivacy = in.readString();
+        cPrivacy = in.readString();
+        nOnLike = in.readString();
+        nOnMention = in.readString();
+        nOnComment = in.readString();
+        nOnFollow = in.readString();
+        nOnCommentLike = in.readString();
+        nOnCommentReply = in.readString();
+        if (in.readByte() == 0) {
+            startupAvatar = null;
+        } else {
+            startupAvatar = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            startupInfo = null;
+        } else {
+            startupInfo = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            startupFollow = null;
+        } else {
+            startupFollow = in.readInt();
+        }
+        src = in.readString();
+        searchEngines = in.readString();
+        mode = in.readString();
+        deviceId = in.readString();
+        balance = in.readString();
+        wallet = in.readString();
+        if (in.readByte() == 0) {
+            referrer = null;
+        } else {
+            referrer = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            profile = null;
+        } else {
+            profile = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            businessAccount = null;
+        } else {
+            businessAccount = in.readInt();
+        }
+        paypalEmail = in.readString();
+        bName = in.readString();
+        bEmail = in.readString();
+        bPhone = in.readString();
+        bSite = in.readString();
+        bSiteAction = in.readString();
+        if (in.readByte() == 0) {
+            uploads = null;
+        } else {
+            uploads = in.readInt();
+        }
+        name = in.readString();
+        uname = in.readString();
+        url = in.readString();
+        if (in.readByte() == 0) {
+            followers = null;
+        } else {
+            followers = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            following = null;
+        } else {
+            following = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            favourites = null;
+        } else {
+            favourites = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            postsCount = null;
+        } else {
+            postsCount = in.readInt();
+        }
+        timeText = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (userId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userId);
+        }
+        dest.writeString(username);
+        dest.writeString(email);
+        dest.writeString(ipAddress);
+        dest.writeString(fname);
+        dest.writeString(lname);
+        dest.writeString(gender);
+        dest.writeString(emailCode);
+        dest.writeString(language);
+        dest.writeString(avatar);
+        dest.writeString(cover);
+        if (countryId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(countryId);
+        }
+        dest.writeString(google);
+        dest.writeString(facebook);
+        dest.writeString(twitter);
+        dest.writeString(website);
+        if (active == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(active);
+        }
+        if (admin == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(admin);
+        }
+        if (verified == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(verified);
+        }
+        dest.writeString(lastSeen);
+        dest.writeString(registered);
+        if (isPro == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(isPro);
+        }
+        if (posts == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(posts);
+        }
+        dest.writeString(pPrivacy);
+        dest.writeString(cPrivacy);
+        dest.writeString(nOnLike);
+        dest.writeString(nOnMention);
+        dest.writeString(nOnComment);
+        dest.writeString(nOnFollow);
+        dest.writeString(nOnCommentLike);
+        dest.writeString(nOnCommentReply);
+        if (startupAvatar == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(startupAvatar);
+        }
+        if (startupInfo == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(startupInfo);
+        }
+        if (startupFollow == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(startupFollow);
+        }
+        dest.writeString(src);
+        dest.writeString(searchEngines);
+        dest.writeString(mode);
+        dest.writeString(deviceId);
+        dest.writeString(balance);
+        dest.writeString(wallet);
+        if (referrer == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(referrer);
+        }
+        if (profile == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(profile);
+        }
+        if (businessAccount == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(businessAccount);
+        }
+        dest.writeString(paypalEmail);
+        dest.writeString(bName);
+        dest.writeString(bEmail);
+        dest.writeString(bPhone);
+        dest.writeString(bSite);
+        dest.writeString(bSiteAction);
+        if (uploads == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(uploads);
+        }
+        dest.writeString(name);
+        dest.writeString(uname);
+        dest.writeString(url);
+        if (followers == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(followers);
+        }
+        if (following == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(following);
+        }
+        if (favourites == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(favourites);
+        }
+        if (postsCount == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(postsCount);
+        }
+        dest.writeString(timeText);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<UserData> CREATOR = new Creator<UserData>() {
+        @Override
+        public UserData createFromParcel(Parcel in) {
+            return new UserData(in);
+        }
+
+        @Override
+        public UserData[] newArray(int size) {
+            return new UserData[size];
+        }
+    };
 
     public Integer getUserId() {
         return userId;

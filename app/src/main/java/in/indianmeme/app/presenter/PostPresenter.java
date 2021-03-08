@@ -15,6 +15,8 @@ import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
 import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
 import in.indianmeme.app.ModelApi.Follow.FollowUserModel;
+import in.indianmeme.app.ModelApi.GetChat.GetChatModel;
+import in.indianmeme.app.ModelApi.GetUserMsg.GetUserMsgModel;
 import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.LoginError.ErrorLoginModel;
@@ -434,6 +436,44 @@ public class PostPresenter implements PostContract.PostInterecter {
 
             @Override
             public void onFailure(Call<UserProfileModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getChat(Map<String, Object> map) {
+        NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
+        networkInterface.getChat(map).enqueue(new Callback<GetChatModel>() {
+            @Override
+            public void onResponse(Call<GetChatModel> call, Response<GetChatModel> response) {
+                int code = 200;
+                if (response.code() == code) {
+                    postView.setChat(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetChatModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getUserMsg(Map<String, Object> map) {
+        NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
+        networkInterface.getUserMsg(map).enqueue(new Callback<GetUserMsgModel>() {
+            @Override
+            public void onResponse(Call<GetUserMsgModel> call, Response<GetUserMsgModel> response) {
+                int code = 200;
+                if (response.code() == code) {
+                    postView.setUserMsg(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUserMsgModel> call, Throwable t) {
 
             }
         });

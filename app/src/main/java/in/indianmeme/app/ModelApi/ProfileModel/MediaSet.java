@@ -1,9 +1,12 @@
 package in.indianmeme.app.ModelApi.ProfileModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MediaSet {
+public class MediaSet implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -20,6 +23,67 @@ public class MediaSet {
     @SerializedName("extra")
     @Expose
     private String extra;
+
+    protected MediaSet(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            postId = null;
+        } else {
+            postId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            userId = null;
+        } else {
+            userId = in.readInt();
+        }
+        file = in.readString();
+        extra = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        if (postId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(postId);
+        }
+        if (userId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userId);
+        }
+        dest.writeString(file);
+        dest.writeString(extra);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<MediaSet> CREATOR = new Creator<MediaSet>() {
+        @Override
+        public MediaSet createFromParcel(Parcel in) {
+            return new MediaSet(in);
+        }
+
+        @Override
+        public MediaSet[] newArray(int size) {
+            return new MediaSet[size];
+        }
+    };
 
     public Integer getId() {
         return id;

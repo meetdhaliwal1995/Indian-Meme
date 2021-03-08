@@ -1,9 +1,11 @@
 package in.indianmeme.app.ModelApi.ProfileModel;
 
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserProfileModel {
+public class UserProfileModel  {
 
     @SerializedName("code")
     @Expose

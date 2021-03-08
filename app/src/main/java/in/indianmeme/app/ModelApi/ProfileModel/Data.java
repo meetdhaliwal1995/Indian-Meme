@@ -1,11 +1,14 @@
 package in.indianmeme.app.ModelApi.ProfileModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Data {
+public class Data implements Parcelable {
 
     @SerializedName("user_data")
     @Expose
@@ -43,6 +46,88 @@ public class Data {
     @SerializedName("user_posts")
     @Expose
     private List<UserPost> userPosts = null;
+
+    protected Data(Parcel in) {
+        userData = in.readParcelable(UserData.class.getClassLoader());
+        if (in.readByte() == 0) {
+            totalPosts = null;
+        } else {
+            totalPosts = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            userFollowers = null;
+        } else {
+            userFollowers = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            userFollowing = null;
+        } else {
+            userFollowing = in.readInt();
+        }
+        byte tmpProfilePrivacy = in.readByte();
+        profilePrivacy = tmpProfilePrivacy == 0 ? null : tmpProfilePrivacy == 1;
+        byte tmpChatPrivacy = in.readByte();
+        chatPrivacy = tmpChatPrivacy == 0 ? null : tmpChatPrivacy == 1;
+        byte tmpIsOwner = in.readByte();
+        isOwner = tmpIsOwner == 0 ? null : tmpIsOwner == 1;
+        byte tmpIsFollowing = in.readByte();
+        isFollowing = tmpIsFollowing == 0 ? null : tmpIsFollowing == 1;
+        byte tmpIsReported = in.readByte();
+        isReported = tmpIsReported == 0 ? null : tmpIsReported == 1;
+        byte tmpIsBlocked = in.readByte();
+        isBlocked = tmpIsBlocked == 0 ? null : tmpIsBlocked == 1;
+        byte tmpAmiBlocked = in.readByte();
+        amiBlocked = tmpAmiBlocked == 0 ? null : tmpAmiBlocked == 1;
+        userPosts = in.createTypedArrayList(UserPost.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(userData, flags);
+        if (totalPosts == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalPosts);
+        }
+        if (userFollowers == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userFollowers);
+        }
+        if (userFollowing == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(userFollowing);
+        }
+        dest.writeByte((byte) (profilePrivacy == null ? 0 : profilePrivacy ? 1 : 2));
+        dest.writeByte((byte) (chatPrivacy == null ? 0 : chatPrivacy ? 1 : 2));
+        dest.writeByte((byte) (isOwner == null ? 0 : isOwner ? 1 : 2));
+        dest.writeByte((byte) (isFollowing == null ? 0 : isFollowing ? 1 : 2));
+        dest.writeByte((byte) (isReported == null ? 0 : isReported ? 1 : 2));
+        dest.writeByte((byte) (isBlocked == null ? 0 : isBlocked ? 1 : 2));
+        dest.writeByte((byte) (amiBlocked == null ? 0 : amiBlocked ? 1 : 2));
+        dest.writeTypedList(userPosts);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Data> CREATOR = new Creator<Data>() {
+        @Override
+        public Data createFromParcel(Parcel in) {
+            return new Data(in);
+        }
+
+        @Override
+        public Data[] newArray(int size) {
+            return new Data[size];
+        }
+    };
 
     public UserData getUserData() {
         return userData;

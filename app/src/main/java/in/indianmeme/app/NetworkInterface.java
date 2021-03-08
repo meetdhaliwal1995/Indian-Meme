@@ -14,6 +14,8 @@ import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
 import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
 import in.indianmeme.app.ModelApi.Follow.FollowUserModel;
+import in.indianmeme.app.ModelApi.GetChat.GetChatModel;
+import in.indianmeme.app.ModelApi.GetUserMsg.GetUserMsgModel;
 import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
@@ -120,5 +122,13 @@ public interface NetworkInterface {
     @POST(Constant.DELETE_REPLY)
     @FormUrlEncoded
     Call<DeleteReplyModel> deleteReply(@FieldMap Map<String, Object> map);
+
+    @POST(Constant.GET_CHAT)
+    @FormUrlEncoded
+    Call<GetChatModel> getChat(@FieldMap Map<String, Object> map);
+
+    @POST(Constant.GET_USER_MSG)
+    @FormUrlEncoded
+    Call<GetUserMsgModel> getUserMsg(@FieldMap Map<String, Object> map);
 
 }
