@@ -46,6 +46,8 @@ public class Constant {
     public static final String DELETE_REPLY = "endpoints/v1/post/delete_reply";
     public static final String GET_CHAT = "endpoints/v1/messages/get_chats";
     public static final String GET_USER_MSG = "endpoints/v1/messages/get_user_messages";
+    public static final String SEND_MESSAGE = "endpoints/v1/messages/send_message";
+    public static final String DELETE_MESSAGE = "endpoints/v1/messages/delete_message";
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
@@ -198,6 +200,13 @@ public class Constant {
     public static String ChangeTimeFormet(String str) {
         Date date = new Date(System.currentTimeMillis());
         DateFormat formatter = new SimpleDateFormat("MMM dd, yy | hh:mm a", Locale.getDefault());
+        Log.e("TIMEEEE: ", formatter.format(date));
+        return formatter.format(date);
+    }
+
+    public static String ChangeTimeFormett(String str) {
+        Date date = new Date(System.currentTimeMillis());
+        DateFormat formatter = new SimpleDateFormat(" hh:mm a", Locale.getDefault());
         Log.e("TIMEEEE: ", formatter.format(date));
         return formatter.format(date);
     }

@@ -1,5 +1,6 @@
 package in.indianmeme.app;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -64,7 +64,6 @@ public class FragmentHomePage extends Fragment implements
     FragmentLoginUserHome fragmentLoginUserHome;
     AdapterStory adapterStory;
     PostPresenter postPresenter;
-
 
 
     @Nullable
@@ -305,6 +304,7 @@ public class FragmentHomePage extends Fragment implements
 
     }
 
+    @SuppressLint("RestrictedApi")
     private void menuPopUp() {
 
         PopupMenu popupMenu = new PopupMenu(getContext(), logout);
@@ -320,13 +320,15 @@ public class FragmentHomePage extends Fragment implements
                     Toast.makeText(getContext(), "logout", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.menu_2:
+                    Intent intent = new Intent(getContext(), ActivityAllChats.class);
+                    startActivity(intent);
 
 
             }
             return false;
         });
 
-        MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), logout);
+        @SuppressLint("RestrictedApi") MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), logout);
         menuHelper.setForceShowIcon(true);
         menuHelper.show();
 

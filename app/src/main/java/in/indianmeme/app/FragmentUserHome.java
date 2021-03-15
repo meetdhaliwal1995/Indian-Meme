@@ -79,15 +79,14 @@ public class FragmentUserHome extends Fragment implements PostContract.PostView 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                followPresenter.getData(map);
                 postPresenter.getFollow(map);
             }
         });
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ActivityChats.class);
-                intent.putExtra("data", userProfileModel.getData());
+                Intent intent = new Intent(getContext(), ActivityChatsMsg.class);
+                intent.putExtra("userid", userProfileModel.getData().getUserData().getUserId());
                 startActivity(intent);
             }
         });

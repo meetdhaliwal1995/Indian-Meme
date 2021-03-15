@@ -51,7 +51,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_layout"
         app:layout_constraintTop_toBottomOf="@id/topbar_layout">
 
@@ -109,11 +109,11 @@
                 android:id="@+id/recycler_chat"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="25dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/colorAccent"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/post_chat" />
+                app:layout_constraintTop_toBottomOf="@id/followers_chat" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,7 +123,7 @@
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/colorAccent"
+        android:background="#000"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
@@ -138,7 +138,7 @@
 
 
         <EditText
-            android:id="@+id/comment_edit"
+            android:id="@+id/sendmsg_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -151,22 +151,9 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
-        <EditText
-            android:id="@+id/edit_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:hint="Post"
-            android:textColor="#fff"
-            android:textColorHint="#fff"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/post_text"
+            android:id="@+id/post_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"

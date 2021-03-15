@@ -78,7 +78,7 @@
 
 
         <EditText
-            android:id="@+id/comment_edit"
+            android:id="@+id/sendmsg_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/post_text"
+            android:id="@+id/post_text_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"

@@ -55,10 +55,10 @@ public class ActivityComments extends AppCompatActivity implements
         setContentView(R.layout.activity_comment);
 
         back = findViewById(R.id.back_imz_comment);
-        comment = findViewById(R.id.comment_edit);
+        comment = findViewById(R.id.sendmsg_edit);
         profile = findViewById(R.id.fetch_comment_imz);
-        comment = findViewById(R.id.comment_edit);
-        postAddCmt = findViewById(R.id.post_text);
+        comment = findViewById(R.id.sendmsg_edit);
+        postAddCmt = findViewById(R.id.post_text_message);
         recyclerView = findViewById(R.id.comment_recyclerview);
         swipeRefreshLayout = findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setOnRefreshListener(this);

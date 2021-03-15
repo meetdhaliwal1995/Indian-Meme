@@ -11,6 +11,7 @@ import in.indianmeme.app.ModelApi.AddUserReply.AddReplyModel;
 import in.indianmeme.app.ModelApi.Comments.CommentInfoModel;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
 import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
+import in.indianmeme.app.ModelApi.DeleteMessage.DeleteMessageModel;
 import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
 import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
@@ -22,6 +23,7 @@ import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.LoginError.ErrorLoginModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
 import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
+import in.indianmeme.app.ModelApi.SendMessage.SendMessageModel;
 import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
 import in.indianmeme.app.ModelApi.UserData.UserDataModel;
 import in.indianmeme.app.ModelApi.UserRegisterModel.UserRegisterModel;
@@ -37,7 +39,6 @@ import retrofit2.Response;
 public class PostPresenter implements PostContract.PostInterecter {
 
     private PostContract.PostView postView;
-
 
     public PostPresenter(PostContract.PostView postView) {
         this.postView = postView;
@@ -474,6 +475,44 @@ public class PostPresenter implements PostContract.PostInterecter {
 
             @Override
             public void onFailure(Call<GetUserMsgModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getSendMessage(Map<String, Object> map) {
+        NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
+        networkInterface.sendMessage(map).enqueue(new Callback<SendMessageModel>() {
+            @Override
+            public void onResponse(Call<SendMessageModel> call, Response<SendMessageModel> response) {
+                int code = 200;
+                if (response.code() == code) {
+                    postView.setSendMessage(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SendMessageModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getDeleteMsg(Map<String, Object> map) {
+        NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
+        networkInterface.deleteMsg(map).enqueue(new Callback<DeleteMessageModel>() {
+            @Override
+            public void onResponse(Call<DeleteMessageModel> call, Response<DeleteMessageModel> response) {
+                int code = 200;
+                if (response.code() == code){
+                    postView.setDeleteMsg(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteMessageModel> call, Throwable t) {
 
             }
         });

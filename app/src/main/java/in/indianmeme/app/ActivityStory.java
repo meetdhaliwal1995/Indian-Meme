@@ -26,6 +26,8 @@ public class ActivityStory extends AppCompatActivity implements StoriesProgressV
     long limit = 500L;
     List<Story> stories;
     private int counter = 0;
+
+
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {

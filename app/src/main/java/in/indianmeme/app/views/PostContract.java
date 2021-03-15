@@ -10,6 +10,7 @@ import in.indianmeme.app.ModelApi.AddUserReply.AddReplyModel;
 import in.indianmeme.app.ModelApi.Comments.CommentInfoModel;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
 import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
+import in.indianmeme.app.ModelApi.DeleteMessage.DeleteMessageModel;
 import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
 import in.indianmeme.app.ModelApi.ExplorePosts.PostExploreModel;
@@ -20,6 +21,7 @@ import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
 import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
+import in.indianmeme.app.ModelApi.SendMessage.SendMessageModel;
 import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
 import in.indianmeme.app.ModelApi.UserData.UserDataModel;
 import in.indianmeme.app.ModelApi.UserRegisterModel.UserRegisterModel;
@@ -37,15 +39,23 @@ public interface PostContract {
 
         }
 
+
         default void showError(String error) {
 
         }
 
+        default void setDeleteMsg(DeleteMessageModel deleteMessageModel){
+
+        }
         default void setChat(GetChatModel getChatModel) {
 
         }
 
         default void setUserMsg(GetUserMsgModel getUserMsgModel) {
+
+        }
+
+        default void setSendMessage(SendMessageModel sendMessageModel) {
 
         }
 
@@ -140,8 +150,15 @@ public interface PostContract {
         default void getChat(Map<String, Object> map) {
 
         }
+        default void getDeleteMsg(Map<String , Object> map){
+
+        }
 
         default void getDeleteReply(Map<String, Object> map) {
+
+        }
+
+        default void getSendMessage(Map<String, Object> map) {
 
         }
 

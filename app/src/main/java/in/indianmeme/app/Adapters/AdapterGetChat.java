@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import in.indianmeme.app.Constant;
 import in.indianmeme.app.ModelApi.GetUserMsg.MessagesItem;
 import in.indianmeme.app.PrefUtils;
 import in.indianmeme.app.R;
 
-public class AdapterChat extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterGetChat extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private Context context;
@@ -24,7 +25,7 @@ public class AdapterChat extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int ME = 0;
     private final int OTHER = 1;
 
-    public AdapterChat(Context context, List<MessagesItem> dataItemList) {
+    public AdapterGetChat(Context context, List<MessagesItem> dataItemList) {
         this.context = context;
         this.dataItemList = dataItemList;
     }
@@ -46,15 +47,23 @@ public class AdapterChat extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Log.e("size", String.valueOf(dataItemList.size()));
 
         MessagesItem dataItem = dataItemList.get(position);
-        if (dataItem.getToId() == PrefUtils.getUserId()) {
+        if (dataItem.getToId() != PrefUtils.getUserId()) {
             Log.e("my", "chat");
             MyChatViewHolder myChatViewHolder = (MyChatViewHolder) viewHolder;
             myChatViewHolder.mychat.setText(dataItem.getText());
+            String time = dataItem.getTime();
+            String savetime = Constant.ChangeTimeFormett(time);
+            myChatViewHolder.timeMe.setText(savetime);
 
         } else {
             Log.e("user", "chat");
             OtherUserChatHolder userChatViewHolder = (OtherUserChatHolder) viewHolder;
             userChatViewHolder.userChat.setText(dataItem.getText());
+
+            String time = dataItem.getTime();
+            String savetime = Constant.ChangeTimeFormett(time);
+            userChatViewHolder.timeUser.setText(savetime);
+
         }
     }
 
@@ -62,7 +71,7 @@ public class AdapterChat extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         MessagesItem dataItem = dataItemList.get(position);
 
-        if (dataItem.getToId() == PrefUtils.getUserId()) {
+        if (dataItem.getToId() != PrefUtils.getUserId()) {
             return ME;
         } else {
             return OTHER;
@@ -74,28 +83,43 @@ public class AdapterChat extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return dataItemList.size();
     }
 
+
     public void addComment(List<MessagesItem> _data) {
         dataItemList.addAll(_data);
         notifyDataSetChanged();
     }
 
+    public void addMessage(MessagesItem msg) {
+        dataItemList.add(0, msg);
+        notifyDataSetChanged();
+    }
+
+    public void clearComments() {
+        dataItemList.clear();
+        notifyDataSetChanged();
+    }
+
     public class OtherUserChatHolder extends RecyclerView.ViewHolder {
 
-        TextView userChat;
+        TextView userChat, timeUser;
+
 
         public OtherUserChatHolder(@NonNull View itemView) {
             super(itemView);
             userChat = itemView.findViewById(R.id.chat_text_user);
+            timeUser = itemView.findViewById(R.id.msg_time);
         }
     }
 
     public class MyChatViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mychat;
+        TextView mychat, timeMe;
 
         public MyChatViewHolder(@NonNull View itemView) {
             super(itemView);
             mychat = itemView.findViewById(R.id.chat_text_me);
+            timeMe = itemView.findViewById(R.id.msg_timeright);
+
         }
     }
 }
