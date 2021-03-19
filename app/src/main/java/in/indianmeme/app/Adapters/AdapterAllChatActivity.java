@@ -1,6 +1,7 @@
 package in.indianmeme.app.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,9 @@ public class AdapterAllChatActivity extends RecyclerView.Adapter<AdapterAllChatA
 
     private Context context;
     private List<DataItem> _list;
-    private AdapterCallChat adapterCallChat;
+    private InterfaceAdapterCallChat adapterCallChat;
 
-    public AdapterAllChatActivity(Context context, List<DataItem> _list, AdapterCallChat adapterCallChat) {
+    public AdapterAllChatActivity(Context context, List<DataItem> _list, InterfaceAdapterCallChat adapterCallChat) {
         this.context = context;
         this._list = _list;
         this.adapterCallChat = adapterCallChat;
@@ -55,10 +56,23 @@ public class AdapterAllChatActivity extends RecyclerView.Adapter<AdapterAllChatA
     public void addComment(List<DataItem> _data) {
         _list.addAll(_data);
         notifyDataSetChanged();
+
     }
 
-    public interface AdapterCallChat {
-        void onCallBackChat(int userId);
+    public void clearMessage() {
+        Log.e("beforelistSize" , String.valueOf(_list.size()));
+
+        _list.clear();
+        notifyDataSetChanged();
+        Log.e("listSize" , String.valueOf(_list.size()));
+    }
+    public void updateList(int pos) {
+        _list.remove(pos);
+        notifyDataSetChanged();
+    }
+
+    public interface InterfaceAdapterCallChat {
+        void onCallBackChat(int userId,int pos);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,7 +88,7 @@ public class AdapterAllChatActivity extends RecyclerView.Adapter<AdapterAllChatA
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adapterCallChat.onCallBackChat(_list.get(getAdapterPosition()).getUserId());
+                    adapterCallChat.onCallBackChat(_list.get(getAdapterPosition()).getUserId(),getAdapterPosition());
                 }
             });
         }

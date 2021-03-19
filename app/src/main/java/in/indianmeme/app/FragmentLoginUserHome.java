@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class FragmentLoginUserHome extends Fragment implements PostContract.Post
     ImageView profileImage, home, add;
     RecyclerView recyclerView;
     PostPresenter postPresenter;
+    ProgressBar progressBar;
 
 
     @Nullable
@@ -53,6 +55,7 @@ public class FragmentLoginUserHome extends Fragment implements PostContract.Post
         getUserName = view.findViewById(R.id.username);
         home = view.findViewById(R.id.home_burger);
         add = view.findViewById(R.id.add_pic);
+        progressBar = view.findViewById(R.id.spin_kit_user_home);
 
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -76,11 +79,12 @@ public class FragmentLoginUserHome extends Fragment implements PostContract.Post
     @Override
     public void showProgress() {
 
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

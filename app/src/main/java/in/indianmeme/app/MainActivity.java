@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity implements PostContract.Post
     FragmentHomePage fragmentHomePage;
     FragmentLoginUserHome fragmentUserLoginHome;
     ImageView logout;
-    ImageView home, perosn, add, explore;
+    ImageView home, perosn, add, explore, notification;
     FragmentExplorePost fragmentExplorePost;
+    FragmentNotification fragmentNotication;
     PostPresenter postPresenter;
 
     @Override
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements PostContract.Post
         perosn = findViewById(R.id.person_image);
         add = findViewById(R.id.add_image);
         explore = findViewById(R.id.explore_image);
+        notification = findViewById(R.id.alert_image);
 //        addImzPresenter = new AddImzPresenter(this);
 //        addVideoPresenter = new AddVideoPresenter(this);
         postPresenter = new PostPresenter(this);
@@ -108,6 +110,17 @@ public class MainActivity extends AppCompatActivity implements PostContract.Post
                 fragmentHomePage = new FragmentHomePage();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container_layout, fragmentHomePage)
+                        .commit();
+            }
+        });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentNotication = new FragmentNotification();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_layout, fragmentNotication)
+                        .addToBackStack("ddd")
                         .commit();
             }
         });

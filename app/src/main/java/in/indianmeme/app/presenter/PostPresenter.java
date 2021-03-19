@@ -11,6 +11,7 @@ import in.indianmeme.app.ModelApi.AddUserReply.AddReplyModel;
 import in.indianmeme.app.ModelApi.Comments.CommentInfoModel;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
 import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
+import in.indianmeme.app.ModelApi.DeleteAllChat.DeleteAllChat;
 import in.indianmeme.app.ModelApi.DeleteMessage.DeleteMessageModel;
 import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
@@ -22,6 +23,7 @@ import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.LoginError.ErrorLoginModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
+import in.indianmeme.app.ModelApi.Notification.NotificationModel;
 import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
 import in.indianmeme.app.ModelApi.SendMessage.SendMessageModel;
 import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
@@ -301,6 +303,7 @@ public class PostPresenter implements PostContract.PostInterecter {
 
     @Override
     public void getPostExplore(Map<String, Object> map) {
+        postView.showProgress();
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
         networkInterface.postExplore(map).enqueue(new Callback<PostExploreModel>() {
             @Override
@@ -308,18 +311,20 @@ public class PostPresenter implements PostContract.PostInterecter {
                 int code = 200;
                 if (response.code() == code) {
                     postView.setPostExplore(response.body());
+                    postView.hideProgress();
                 }
             }
 
             @Override
             public void onFailure(Call<PostExploreModel> call, Throwable t) {
-
+                postView.hideProgress();
             }
         });
     }
 
     @Override
     public void getPostHome(Map<String, Object> map) {
+        postView.showProgress();
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
         networkInterface.homePage(map).enqueue(new Callback<HomePageDataModel>() {
             @Override
@@ -327,6 +332,7 @@ public class PostPresenter implements PostContract.PostInterecter {
                 int code = 200;
                 if (response.code() == code) {
                     postView.setHomePagePost(response.body());
+                    postView.hideProgress();
                 }
             }
 
@@ -425,6 +431,7 @@ public class PostPresenter implements PostContract.PostInterecter {
 
     @Override
     public void getUserProfile(Map<String, Object> map) {
+        postView.showProgress();
         NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
         networkInterface.userProfile(map).enqueue(new Callback<UserProfileModel>() {
             @Override
@@ -432,6 +439,8 @@ public class PostPresenter implements PostContract.PostInterecter {
                 int code = 200;
                 if (code == response.code()) {
                     postView.setUserProfile(response.body());
+                    postView.hideProgress();
+
                 }
             }
 
@@ -506,13 +515,53 @@ public class PostPresenter implements PostContract.PostInterecter {
             @Override
             public void onResponse(Call<DeleteMessageModel> call, Response<DeleteMessageModel> response) {
                 int code = 200;
-                if (response.code() == code){
+                if (response.code() == code) {
                     postView.setDeleteMsg(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<DeleteMessageModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getAllChatDelete(Map<String, Object> map) {
+        NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
+        networkInterface.deleteAllChat(map).enqueue(new Callback<DeleteAllChat>() {
+            @Override
+            public void onResponse(Call<DeleteAllChat> call, Response<DeleteAllChat> response) {
+                int code = 200;
+                if (response.code() == code) {
+                    postView.setDeleteAllChat(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteAllChat> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getAllNotification(Map<String, Object> map) {
+        postView.showProgress();
+        NetworkInterface networkInterface = MyApp.getRetrofit().create(NetworkInterface.class);
+        networkInterface.getNotification(map).enqueue(new Callback<NotificationModel>() {
+            @Override
+            public void onResponse(Call<NotificationModel> call, Response<NotificationModel> response) {
+                int code = 200;
+                if (response.code() == 200) {
+                    postView.setNotification(response.body());
+                    postView.hideProgress();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationModel> call, Throwable t) {
 
             }
         });

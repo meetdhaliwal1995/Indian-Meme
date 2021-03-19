@@ -45,7 +45,7 @@ class ActivityChatsMsgK : AppCompatActivity(), PostContract.PostView {
         data = intent.getParcelableExtra("data")
         postPresenter = PostPresenter(this)
         recyclerView?.setLayoutManager(LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true))
-        adapterChat = AdapterGetChat(this, ArrayList<MessagesItem>())
+        adapterChat = AdapterGetChat(this, ArrayList<MessagesItem>(),null)
         recyclerView?.setAdapter(adapterChat)
         val into = Glide.with(applicationContext).load(data!!.userData.avatar).circleCrop().into(userImage!!)
         username?.setText(data?.userData?.username)
@@ -64,6 +64,6 @@ class ActivityChatsMsgK : AppCompatActivity(), PostContract.PostView {
 
     override fun setUserMsg(getUserMsgModel: GetUserMsgModel) {
         Log.e("check", "adapter")
-        adapterChat?.addComment(getUserMsgModel.getData().getMessages())
+        adapterChat?.addMessage(getUserMsgModel.getData().getMessages())
     }
 }

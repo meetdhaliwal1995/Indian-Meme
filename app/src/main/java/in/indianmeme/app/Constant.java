@@ -48,6 +48,8 @@ public class Constant {
     public static final String GET_USER_MSG = "endpoints/v1/messages/get_user_messages";
     public static final String SEND_MESSAGE = "endpoints/v1/messages/send_message";
     public static final String DELETE_MESSAGE = "endpoints/v1/messages/delete_message";
+    public static final String DELETE_ALLCHAT = "endpoints/v1/messages/delete_chat";
+    public static final String NOTIFICATION_GET = "/endpoints/v1/user/fetch_notifications";
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access

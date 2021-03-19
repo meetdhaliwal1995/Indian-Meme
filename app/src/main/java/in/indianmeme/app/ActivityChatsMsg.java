@@ -3,15 +3,19 @@ package in.indianmeme.app;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.indianmeme.app.Adapters.AdapterGetChat;
+import in.indianmeme.app.ModelApi.DeleteAllChat.DeleteAllChat;
+import in.indianmeme.app.ModelApi.DeleteMessage.DeleteMessageModel;
 import in.indianmeme.app.ModelApi.GetUserMsg.GetUserMsgModel;
 import in.indianmeme.app.ModelApi.GetUserMsg.MessagesItem;
 import in.indianmeme.app.ModelApi.ProfileModel.Data;
@@ -29,8 +35,8 @@ import in.indianmeme.app.ModelApi.SendMessage.SendMessageModel;
 import in.indianmeme.app.presenter.PostPresenter;
 import in.indianmeme.app.views.PostContract;
 
-public class ActivityChatsMsg extends AppCompatActivity implements PostContract.PostView {
-    ImageView userImage, userProfile;
+public class ActivityChatsMsg extends AppCompatActivity implements PostContract.PostView , AdapterGetChat.InterfaceAdapterdeleteMsg {
+    ImageView userImage, userProfile, more;
     EditText message, postMsg;
     TextView userName, username, followers, post;
     RecyclerView recyclerView;
@@ -54,7 +60,9 @@ public class ActivityChatsMsg extends AppCompatActivity implements PostContract.
         followers = findViewById(R.id.followers_chat);
         post = findViewById(R.id.post_message);
         message = findViewById(R.id.sendmsg_edit);
+        more = findViewById(R.id.more_chatactivity);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         data = getIntent().getParcelableExtra("data");
         postPresenter = new PostPresenter(this);
 
@@ -92,9 +100,21 @@ public class ActivityChatsMsg extends AppCompatActivity implements PostContract.
                 postPresenter.getSendMessage(sendMsg);
                 adapterChat.addMessage(messageConversion(Integer.parseInt(getUserId), message.getText().toString()));
                 inputMethodManager.hideSoftInputFromWindow(message.getWindowToken(), 0);
+                Handler handler = new Handler();
+                handler.postAtTime(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                }, 500);
                 message.clearFocus();
                 message.setText("");
-                recyclerView.smoothScrollToPosition(10000);
+            }
+        });
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuPopUp();
             }
         });
 
@@ -102,12 +122,13 @@ public class ActivityChatsMsg extends AppCompatActivity implements PostContract.
 
     private void initCommentAdapter() {
         if (adapterChat != null) {
-            adapterChat.clearComments();
+            adapterChat.clearMessage();
             recyclerView.setAdapter(null);
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapterChat = new AdapterGetChat(this, new ArrayList<MessagesItem>());
+
+        adapterChat = new AdapterGetChat(this, new ArrayList<MessagesItem>(), this);
         recyclerView.setAdapter(adapterChat);
     }
 
@@ -115,6 +136,7 @@ public class ActivityChatsMsg extends AppCompatActivity implements PostContract.
         MessagesItem item = new MessagesItem();
         item.setId(id);
         item.setText(text);
+//        item.setTime(time);
         return item;
     }
 
@@ -122,7 +144,7 @@ public class ActivityChatsMsg extends AppCompatActivity implements PostContract.
     @Override
     public void setUserMsg(GetUserMsgModel getUserMsgModel) {
         Log.e("check", "adapter");
-        adapterChat.addComment(getUserMsgModel.getData().getMessages());
+        adapterChat.addMessage(getUserMsgModel.getData().getMessages());
         Glide.with(getApplicationContext()).load(getUserMsgModel.getData().getUserData().getAvatar()).circleCrop().into(userImage);
         username.setText(getUserMsgModel.getData().getUserData().getUsername());
         Glide.with(getApplicationContext()).load(getUserMsgModel.getData().getUserData().getAvatar()).circleCrop().into(userProfile);
@@ -132,7 +154,52 @@ public class ActivityChatsMsg extends AppCompatActivity implements PostContract.
 
     @Override
     public void setSendMessage(SendMessageModel sendMessageModel) {
-//        in.indianmeme.app.ModelApi.SendMessage.Data data = sendMessageModel.getData();
-//        adapterChat.addMessage(messageConversion(data.getId(), data.getText()));
+    }
+
+    @Override
+    public void onCallBackDeleteMsg(Map<String, Object> map, int pos) {
+        postPresenter.getDeleteMsg(map);
+        adapterChat.updateList(pos);
+    }
+
+    @Override
+    public void setDeleteMsg(DeleteMessageModel deleteMessageModel) {
+        Toast.makeText(getApplicationContext(), deleteMessageModel.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+
+    @SuppressLint("RestrictedApi")
+    private void menuPopUp() {
+
+        PopupMenu popupMenu = new PopupMenu(this, more);
+        popupMenu.getMenuInflater()
+                .inflate(R.menu.menu_popupnew, popupMenu.getMenu());
+        popupMenu.show();
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.memu_1:
+                    final Map<String, Object> map1 = new HashMap<>();
+                    map1.put("access_token", PrefUtils.getAccessToken());
+                    map1.put("server_key", Constant.SERVER_KEY);
+                    map1.put("user_id" , getUserId);
+                    postPresenter.getAllChatDelete(map1);
+                    adapterChat.clearMessage();
+                    break;
+
+            }
+            return false;
+        });
+
+//        @SuppressLint("RestrictedApi") MenuPopupHelper menuHelper = new MenuPopupHelper(getApplicationContext(), (MenuBuilder) popupMenu.getMenu(), more);
+//        menuHelper.setForceShowIcon(true);
+//        menuHelper.show();
+
+//        popupMenu.show();
+    }
+
+    @Override
+    public void setDeleteAllChat(DeleteAllChat deleteAllChat) {
+        Toast.makeText(getApplicationContext(), deleteAllChat.getMessage(), Toast.LENGTH_SHORT).show();
+
     }
 }

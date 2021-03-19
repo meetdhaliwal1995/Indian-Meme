@@ -10,6 +10,7 @@ import in.indianmeme.app.ModelApi.AddUserReply.AddReplyModel;
 import in.indianmeme.app.ModelApi.Comments.CommentInfoModel;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
 import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
+import in.indianmeme.app.ModelApi.DeleteAllChat.DeleteAllChat;
 import in.indianmeme.app.ModelApi.DeleteMessage.DeleteMessageModel;
 import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
@@ -20,6 +21,7 @@ import in.indianmeme.app.ModelApi.GetUserMsg.GetUserMsgModel;
 import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
+import in.indianmeme.app.ModelApi.Notification.NotificationModel;
 import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
 import in.indianmeme.app.ModelApi.SendMessage.SendMessageModel;
 import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
@@ -139,6 +141,13 @@ public interface NetworkInterface {
 
     @POST(Constant.DELETE_MESSAGE)
     @FormUrlEncoded
-    Call<DeleteMessageModel> deleteMsg(@FieldMap Map<String , Object> map);
+    Call<DeleteMessageModel> deleteMsg(@FieldMap Map<String, Object> map);
 
+    @POST(Constant.DELETE_ALLCHAT)
+    @FormUrlEncoded
+    Call<DeleteAllChat> deleteAllChat(@FieldMap Map<String , Object> map);
+
+    @POST(Constant.NOTIFICATION_GET)
+    @FormUrlEncoded
+    Call<NotificationModel> getNotification(@FieldMap Map<String , Object>map);
 }

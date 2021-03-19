@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,7 @@ public class FragmentHomePage extends Fragment implements
     FragmentLoginUserHome fragmentLoginUserHome;
     AdapterStory adapterStory;
     PostPresenter postPresenter;
+    ProgressBar progressBar;
 
 
     @Nullable
@@ -85,6 +87,7 @@ public class FragmentHomePage extends Fragment implements
         logout = view.findViewById(R.id.massanger_imz);
         addStory = view.findViewById(R.id.pixel_imz);
         swipeRefreshLayout = view.findViewById(R.id.scroll_refresh);
+        progressBar = view.findViewById(R.id.spin_kit);
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -188,12 +191,12 @@ public class FragmentHomePage extends Fragment implements
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+            progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -339,4 +342,6 @@ public class FragmentHomePage extends Fragment implements
     public void videoCompleted() {
 
     }
+
+
 }

@@ -18,7 +18,7 @@ import in.indianmeme.app.ModelApi.GetChat.GetChatModel;
 import in.indianmeme.app.presenter.PostPresenter;
 import in.indianmeme.app.views.PostContract;
 
-public class ActivityAllChats extends AppCompatActivity implements PostContract.PostView, AdapterAllChatActivity.AdapterCallChat {
+public class ActivityAllChats extends AppCompatActivity implements PostContract.PostView, AdapterAllChatActivity.InterfaceAdapterCallChat {
     RecyclerView recyclerView;
     PostPresenter postPresenter;
     Map<String, Object> map;
@@ -39,7 +39,6 @@ public class ActivityAllChats extends AppCompatActivity implements PostContract.
         adapterChat = new AdapterAllChatActivity(this, new ArrayList<DataItem>(), this);
         recyclerView.setAdapter(adapterChat);
 
-
     }
 
     @Override
@@ -48,9 +47,16 @@ public class ActivityAllChats extends AppCompatActivity implements PostContract.
     }
 
     @Override
-    public void onCallBackChat(int userId) {
+    public void onCallBackChat(int userId, int position) {
         Intent intent = new Intent(this, ActivityChatsMsg.class);
         intent.putExtra("userid", userId);
         startActivity(intent);
+        adapterChat.updateList(position);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ public class FragmentExplorePost extends Fragment implements PostContract.PostVi
     Map<String, Object> mapExplore;
     AdapterExplorePost adapterExplorePost;
     PostPresenter postPresenter;
+    ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -36,6 +38,7 @@ public class FragmentExplorePost extends Fragment implements PostContract.PostVi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recycler_explore);
+        progressBar = view.findViewById(R.id.spin_kitExplore);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 //        postExplorePresenter = new PostExplorePresenter(this);
@@ -52,12 +55,12 @@ public class FragmentExplorePost extends Fragment implements PostContract.PostVi
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
 //    @Override

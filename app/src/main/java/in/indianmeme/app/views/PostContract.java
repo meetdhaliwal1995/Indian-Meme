@@ -1,5 +1,7 @@
 package in.indianmeme.app.views;
 
+import androidx.transition.Transition;
+
 import java.util.Map;
 
 import in.indianmeme.app.ModelApi.AddComments.AddCommentModel;
@@ -10,6 +12,7 @@ import in.indianmeme.app.ModelApi.AddUserReply.AddReplyModel;
 import in.indianmeme.app.ModelApi.Comments.CommentInfoModel;
 import in.indianmeme.app.ModelApi.CommentsRply.FetchReplyModel;
 import in.indianmeme.app.ModelApi.Delete.DeletePostModel;
+import in.indianmeme.app.ModelApi.DeleteAllChat.DeleteAllChat;
 import in.indianmeme.app.ModelApi.DeleteMessage.DeleteMessageModel;
 import in.indianmeme.app.ModelApi.DeleteReply.DeleteReplyModel;
 import in.indianmeme.app.ModelApi.DlteCommt.DeleteCommentModel;
@@ -20,6 +23,7 @@ import in.indianmeme.app.ModelApi.GetUserMsg.GetUserMsgModel;
 import in.indianmeme.app.ModelApi.HomePage.HomePageDataModel;
 import in.indianmeme.app.ModelApi.Login.LoginModel;
 import in.indianmeme.app.ModelApi.Logout.LogoutUserModel;
+import in.indianmeme.app.ModelApi.Notification.NotificationModel;
 import in.indianmeme.app.ModelApi.ProfileModel.UserProfileModel;
 import in.indianmeme.app.ModelApi.SendMessage.SendMessageModel;
 import in.indianmeme.app.ModelApi.Story.StoryFetchModel;
@@ -44,9 +48,18 @@ public interface PostContract {
 
         }
 
-        default void setDeleteMsg(DeleteMessageModel deleteMessageModel){
+        default void setNotification(NotificationModel notificationModel){
 
         }
+
+        default void setDeleteAllChat(DeleteAllChat deleteAllChat) {
+
+        }
+
+        default void setDeleteMsg(DeleteMessageModel deleteMessageModel) {
+
+        }
+
         default void setChat(GetChatModel getChatModel) {
 
         }
@@ -150,7 +163,8 @@ public interface PostContract {
         default void getChat(Map<String, Object> map) {
 
         }
-        default void getDeleteMsg(Map<String , Object> map){
+
+        default void getDeleteMsg(Map<String, Object> map) {
 
         }
 
@@ -235,6 +249,13 @@ public interface PostContract {
         }
 
         default void getUserMsg(Map<String, Object> map) {
+
+        }
+
+        default void getAllChatDelete(Map<String, Object> map) {
+
+        }
+        default void getAllNotification(Map<String , Object> map){
 
         }
 
